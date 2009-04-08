@@ -17,6 +17,7 @@ sub extends_nonmoose {
     ) if @moose_classes;
 
     Moose::extends($caller, @_, 'Moose::Object');
+
     Class::MOP::Class->initialize($caller)->add_method(new => sub {
         my $class = shift;
         my $meta = Class::MOP::Class->initialize($class);
