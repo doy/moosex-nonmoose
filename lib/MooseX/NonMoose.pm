@@ -8,8 +8,15 @@ Moose::Exporter->setup_import_methods(
 
 sub extends_nonmoose {
     my $caller = shift;
-    my @superclasses = (@_, 'Moose::Object');
-    Moose::extends($caller, @superclasses);
+
+    my @moose_classes = grep { $_->isa('Moose::Object') } @_;
+    Moose->throw_error(
+        'extends_nonmoose can only be used on non-Moose classes; '
+      . join(', ', @moose_classes)
+      . (@moose_classes == 1 ? ' is a Moose class' : ' are Moose classes')
+    ) if @moose_classes;
+
+    Moose::extends($caller, @_, 'Moose::Object');
     Class::MOP::Class->initialize($caller)->add_method(new => sub {
         my $class = shift;
         my $meta = Class::MOP::Class->initialize($class);
