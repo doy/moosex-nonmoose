@@ -20,9 +20,15 @@ sub extends_nonmoose {
         $meta->add_method(new => sub {
             my $class = shift;
             my $meta = Class::MOP::Class->initialize($class);
+
+            # we need to get the non-moose constructor from the superclass
+            # of the class where this method actually exists
             my $caller_meta = Class::MOP::Class->initialize($caller);
             my $super_new = $caller_meta->find_next_method_by_name('new');
+            # but we need to call it as a method on the class we're actually
+            # trying to instantiate
             my $self = $super_new->execute($class, @_);
+
             my $params = $class->BUILDARGS(@_);
             my $moose_self = $meta->new_object(
                 __INSTANCE__ => $self,
