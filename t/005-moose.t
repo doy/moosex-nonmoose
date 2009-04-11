@@ -42,16 +42,14 @@ isa_ok $foo_othersub, 'Foo';
 is $foo_othersub->foo, 'FOO', 'inheritance works (immutable when extending)';
 ok(Foo::OtherSub->meta->has_method('new'),
    'Foo::OtherSub has its own inlined constructor (immutable when extending)');
-ok(!(Foo::OtherSub->meta->get_method('new')->can('does_role')
-  && Foo::OtherSub->meta->get_method('new')->does_role('MooseX::NonMoose::Meta::Role::Constructor')),
-   'Foo::OtherSub\'s inlined constructor is from Moose, not MooseX::NonMoose (immutable when extending)');
+ok(!Foo::OtherSub->meta->constructor_class->meta->isa('Moose::Meta::Class'),
+   'Foo::OtherSub\'s constructor class hasn\'t had any roles applied to it (immutable when extending)');
 
 Foo::OtherSub->meta->make_immutable;
 $foo_othersub = Foo::OtherSub->new;
 isa_ok $foo_othersub, 'Foo';
 is $foo_othersub->foo, 'FOO', 'inheritance works (all immutable)';
 ok(Foo::OtherSub->meta->has_method('new'),
-   'Foo::OtherSub has its own inlined constructor (immutable when extending)');
-ok(!(Foo::OtherSub->meta->get_method('new')->can('does_role')
-  && Foo::OtherSub->meta->get_method('new')->does_role('MooseX::NonMoose::Meta::Role::Constructor')),
-   'Foo::OtherSub\'s inlined constructor is from Moose, not MooseX::NonMoose (immutable when extending)');
+   'Foo::OtherSub has its own inlined constructor (all immutable)');
+ok(!Foo::OtherSub->meta->constructor_class->meta->isa('Moose::Meta::Class'),
+   'Foo::OtherSub\'s constructor class hasn\'t had any roles applied to it (all immutable)');
