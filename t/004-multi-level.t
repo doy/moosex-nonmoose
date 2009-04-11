@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 6;
+use Test::More tests => 7;
 
 package Foo;
 
@@ -36,6 +36,8 @@ package main;
 my $foo_moose = Foo::Moose->new;
 is $foo_moose->foo, 'FOO', 'Foo::Moose::foo';
 is $foo_moose->bar, 'BAR', 'Foo::Moose::bar';
+isnt(Foo::Moose->meta->get_method('new'), undef,
+     'Foo::Moose gets its own constructor');
 
 my $foo_moose_sub = Foo::Moose::Sub->new;
 is $foo_moose_sub->foo, 'FOO', 'Foo::Moose::foo';
