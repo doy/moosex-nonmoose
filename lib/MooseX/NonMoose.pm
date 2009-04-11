@@ -31,12 +31,11 @@ sub extends {
 
     $caller_meta->add_method(new => sub {
         my $class = shift;
-        my $meta = Class::MOP::Class->initialize($class);
 
         my $self = $super_new->execute($class, @_);
 
         my $params = $class->BUILDARGS(@_);
-        my $moose_self = $meta->new_object(
+        my $moose_self = Class::MOP::Class->initialize($class)->new_object(
             __INSTANCE__ => $self,
             %$params,
         );
