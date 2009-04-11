@@ -16,6 +16,9 @@ sub extends_nonmoose {
     Moose::extends($caller, @superclasses);
 
     my $caller_meta = Class::MOP::Class->initialize($caller);
+    # XXX: this doesn't need to be installed for every class, just for the
+    # classes directly below ones with custom constructors... how can we do
+    # this?
     $caller_meta->add_method(new => sub {
         my $class = shift;
         my $meta = Class::MOP::Class->initialize($class);
