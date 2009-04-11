@@ -54,7 +54,7 @@ sub init_meta {
         constructor_class_roles =>
             ['MooseX::NonMoose::Meta::Role::Constructor'],
     );
-    return $options{for_class}->meta;
+    return Class::MOP::class_of($options{for_class});
 }
 
 1;
