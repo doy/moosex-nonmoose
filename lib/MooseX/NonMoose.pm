@@ -26,7 +26,7 @@ sub extends {
         );
 
         return if $constructor_class_meta->can('does_role')
-            && $constructor_class_meta->does_role('MooseX::NonMoose::Meta::Role::Constructor');
+               && $constructor_class_meta->does_role('MooseX::NonMoose::Meta::Role::Constructor');
     }
 
     $caller_meta->add_method(new => sub {
