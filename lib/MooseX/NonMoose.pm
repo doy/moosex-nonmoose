@@ -3,10 +3,10 @@ use Moose ();
 use Moose::Exporter;
 
 Moose::Exporter->setup_import_methods(
-    with_caller => ['extends_nonmoose'],
+    with_caller => ['extends'],
 );
 
-sub extends_nonmoose {
+sub extends {
     my $caller = shift;
     my @superclasses = @_;
 

@@ -13,7 +13,7 @@ sub new {
 package Foo::Moose;
 use Moose;
 use MooseX::NonMoose;
-extends_nonmoose 'Foo';
+extends 'Foo';
 
 package main;
 my $foo = Foo->new;

@@ -13,7 +13,7 @@ sub baz { ref(shift) }
 package Foo::Moose;
 use Moose;
 use MooseX::NonMoose;
-extends_nonmoose 'Foo';
+extends 'Foo';
 
 sub bar { 'Foo::Moose' }
 

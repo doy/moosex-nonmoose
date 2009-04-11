@@ -13,7 +13,7 @@ sub new {
 package Foo::Moose;
 use Moose;
 use MooseX::NonMoose;
-extends_nonmoose 'Foo';
+extends 'Foo';
 
 has class => (
     is => 'rw',
@@ -34,7 +34,7 @@ sub BUILD {
 package Foo::Moose::Sub;
 use Moose;
 use MooseX::NonMoose;
-extends_nonmoose 'Foo::Moose';
+extends 'Foo::Moose';
 
 has bar => (
     is => 'rw',
