@@ -17,7 +17,8 @@ sub extends {
 
     my $caller_meta = Class::MOP::Class->initialize($caller);
     # we need to get the non-moose constructor from the superclass
-    # of the class where this method actually exists
+    # of the class where this method actually exists, regardless of what class
+    # we're calling it on
     my $super_new = $caller_meta->find_next_method_by_name('new');
 
     if ($super_new->associated_metaclass->can('constructor_class')) {
@@ -25,6 +26,8 @@ sub extends {
             $super_new->associated_metaclass->constructor_class
         );
 
+        # if the constructor we're inheriting is already one of ours, there's
+        # no reason to install a new one
         return if $constructor_class_meta->can('does_role')
                && $constructor_class_meta->does_role('MooseX::NonMoose::Meta::Role::Constructor');
     }
