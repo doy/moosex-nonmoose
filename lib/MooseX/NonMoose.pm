@@ -21,6 +21,9 @@ sub extends {
     # we're calling it on
     my $super_new = $caller_meta->find_next_method_by_name('new');
 
+    # if we're trying to extend a moose class, just do nothing
+    return if $super_new->package_name eq 'Moose::Object';
+
     if ($super_new->associated_metaclass->can('constructor_class')) {
         my $constructor_class_meta = Class::MOP::Class->initialize(
             $super_new->associated_metaclass->constructor_class
