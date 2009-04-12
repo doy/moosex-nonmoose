@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 14;
+use Test::More tests => 12;
 
 package Foo;
 use Moose;
@@ -42,8 +42,6 @@ isa_ok $foo_othersub, 'Foo';
 is $foo_othersub->foo, 'FOO', 'inheritance works (immutable when extending)';
 ok(!Foo::OtherSub->meta->has_method('new'),
    'Foo::OtherSub doesn\'t have its own new method (immutable when extending)');
-ok(!Foo::OtherSub->meta->constructor_class->meta->isa('Moose::Meta::Class'),
-   'Foo::OtherSub\'s constructor class hasn\'t had any roles applied to it (immutable when extending)');
 
 Foo::OtherSub->meta->make_immutable;
 $foo_othersub = Foo::OtherSub->new;
@@ -51,5 +49,3 @@ isa_ok $foo_othersub, 'Foo';
 is $foo_othersub->foo, 'FOO', 'inheritance works (all immutable)';
 ok(!Foo::OtherSub->meta->has_method('new'),
    'Foo::OtherSub doesn\'t have its own new method (all immutable)');
-ok(!Foo::OtherSub->meta->constructor_class->meta->isa('Moose::Meta::Class'),
-   'Foo::OtherSub\'s constructor class hasn\'t had any roles applied to it (all immutable)');
