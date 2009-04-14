@@ -18,8 +18,9 @@ around can_be_inlined => sub {
 sub _generate_instance {
     my $self = shift;
     my ($var, $class_var) = @_;
-    my $super_new_class = $self->associated_metaclass->find_next_method_by_name('new')->package_name;
-    "my $var = bless $super_new_class->new(\@_), $class_var;\n";
+    my $new = $self->name;
+    my $super_new_class = $self->associated_metaclass->find_next_method_by_name($new)->package_name;
+    "my $var = bless $super_new_class->$new(\@_), $class_var;\n";
 }
 
 no Moose::Role;
