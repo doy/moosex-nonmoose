@@ -20,6 +20,9 @@ sub _generate_instance {
     my ($var, $class_var) = @_;
     my $new = $self->name;
     my $super_new_class = $self->associated_metaclass->find_next_method_by_name($new)->package_name;
+    # XXX: this should probably be taking something from the meta-instance api,
+    # rather than calling bless directly, but all it can do at the moment is
+    # generate fresh instances
     "my $var = bless $super_new_class->$new(\@_), $class_var;\n";
 }
 
