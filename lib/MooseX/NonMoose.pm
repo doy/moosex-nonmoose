@@ -13,6 +13,9 @@ sub extends {
     push @superclasses, 'Moose::Object'
         unless grep { $_->isa('Moose::Object') } @superclasses;
 
+    # XXX: should move the validation out of Moose::extends and into
+    # MMC::superclasses, and then just call that directly. will still need to
+    # check that @_ isn't empty in that case.
     Moose::extends($caller, @superclasses);
 
     my $caller_meta = Class::MOP::Class->initialize($caller);
