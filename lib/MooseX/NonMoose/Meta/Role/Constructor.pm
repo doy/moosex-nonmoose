@@ -7,9 +7,8 @@ around can_be_inlined => sub {
 
     my $meta = $self->associated_metaclass;
     my $super_new = $meta->find_method_by_name($self->name);
+    # XXX is this even the right test?
     if (!$super_new->associated_metaclass->isa($self->_expected_constructor_class)) {
-        # XXX: in the future, hopefully we'll be able to inline this?
-        #return $self->should_be_inlined;
         return 1;
     }
 
