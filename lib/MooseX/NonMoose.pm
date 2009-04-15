@@ -8,17 +8,16 @@ Moose::Exporter->setup_import_methods(
 
 sub extends {
     my $caller = shift;
-    my @superclasses = @_;
 
+    Moose->throw_error("Must derive at least one class") unless @_;
+
+    my @superclasses = @_;
     push @superclasses, 'Moose::Object'
         unless grep { $_->isa('Moose::Object') } @superclasses;
 
-    # XXX: should move the validation out of Moose::extends and into
-    # MMC::superclasses, and then just call that directly. will still need to
-    # check that @_ isn't empty in that case.
-    Moose::extends($caller, @superclasses);
+    my $caller_meta = Moose::Meta::Class->initialize($caller);
+    $caller_meta->superclasses(@superclasses);
 
-    my $caller_meta = Class::MOP::Class->initialize($caller);
     # we need to get the non-moose constructor from the superclass
     # of the class where this method actually exists, regardless of what class
     # we're calling it on
