@@ -21,6 +21,7 @@ sub extends {
     # we need to get the non-moose constructor from the superclass
     # of the class where this method actually exists, regardless of what class
     # we're calling it on
+    # XXX: get constructor name from the constructor metaclass?
     my $super_new = $caller_meta->find_next_method_by_name('new');
 
     # if we're trying to extend a moose class, just do nothing
