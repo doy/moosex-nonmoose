@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 7;
+use Test::More tests => 11;
 
 package Foo;
 
@@ -45,3 +45,11 @@ is $foo_moose_sub->bar, 'BAR', 'Foo::Moose::Sub::bar';
 is $foo_moose_sub->baz, 'BAZ', 'Foo::Moose::Sub::baz';
 is(Foo::Moose::Sub->meta->get_method('new'), undef,
    'Foo::Moose::Sub just uses the constructor for Foo::Moose');
+
+Foo::Moose::Sub->meta->make_immutable;
+$foo_moose_sub = Foo::Moose::Sub->new;
+is $foo_moose_sub->foo, 'FOO', 'Foo::Moose::Sub::foo (immutable)';
+is $foo_moose_sub->bar, 'BAR', 'Foo::Moose::Sub::bar (immutable)';
+is $foo_moose_sub->baz, 'BAZ', 'Foo::Moose::Sub::baz (immutable)';
+isnt(Foo::Moose::Sub->meta->get_method('new'), undef,
+     'Foo::Moose::Sub has an inlined constructor');
