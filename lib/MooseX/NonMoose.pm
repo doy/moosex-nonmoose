@@ -44,15 +44,14 @@ sub extends {
     $caller_meta->add_method(new => sub {
         my $class = shift;
 
-        my $self = $super_new->execute($class, @_);
-
         my $params = $class->BUILDARGS(@_);
-        my $moose_self = Class::MOP::Class->initialize($class)->new_object(
-            __INSTANCE__ => $self,
+        my $instance = $super_new->execute($class, @_);
+        my $self = Class::MOP::Class->initialize($class)->new_object(
+            __INSTANCE__ => $instance,
             %$params,
         );
-        $moose_self->BUILDALL($params);
-        return $moose_self;
+        $self->BUILDALL($params);
+        return $self;
     });
     $caller_meta->replace_constructor(1);
 }
