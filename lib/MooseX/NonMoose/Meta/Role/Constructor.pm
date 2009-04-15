@@ -7,8 +7,9 @@ around can_be_inlined => sub {
 
     my $meta = $self->associated_metaclass;
     my $super_new = $meta->find_method_by_name($self->name);
-    # XXX is this even the right test?
-    if (!$super_new->associated_metaclass->isa($self->_expected_constructor_class)) {
+    my $super_meta = $super_new->associated_metaclass;
+    if ($super_meta->can('does_role')
+     && $super_meta->does_role('MooseX::NonMoose::Meta::Role::Class')) {
         return 1;
     }
 
