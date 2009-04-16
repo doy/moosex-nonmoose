@@ -36,6 +36,7 @@ sub extends {
         # no reason to install a new one
         return if $constructor_class_meta->can('does_role')
                && $constructor_class_meta->does_role('MooseX::NonMoose::Meta::Role::Constructor');
+
         # if the constructor we're inheriting is an inlined version of the
         # default moose constructor, don't do anything either
         return if $constructor_class_meta->name eq 'Moose::Meta::Method::Constructor';
