@@ -48,6 +48,7 @@ around superclasses => sub {
 
         # if the constructor we're inheriting is an inlined version of the
         # default moose constructor, don't do anything either
+        # XXX: wrong if the class overrode new manually?
         return @ret if $constructor_class_meta->name eq 'Moose::Meta::Method::Constructor';
     }
 
