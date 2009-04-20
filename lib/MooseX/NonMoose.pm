@@ -104,6 +104,8 @@ L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=MooseX-NonMoose>.
 
 =head1 SEE ALSO
 
+L<Moose::Cookbook::FAQ/How do I make non-Moose constructors work with Moose?>
+
 L<MooseX::Alien> - serves the same purpose, but with a radically different (and
 far more hackish and worse) implementation.
 
