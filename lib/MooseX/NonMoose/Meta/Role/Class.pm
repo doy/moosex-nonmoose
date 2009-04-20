@@ -7,7 +7,7 @@ has has_nonmoose_constructor => (
     default => 0,
 );
 
-around _make_immutable_transformer => sub {
+around _immutable_options => sub {
     my $orig = shift;
     my $self = shift;
 
@@ -21,8 +21,7 @@ around _make_immutable_transformer => sub {
 
     # do nothing if we explicitly ask for the constructor to not be inlined
     my %args = @_;
-    return $self->$orig(@_) if exists $args{inline_constructor}
-                            && !$args{inline_constructor};
+    return $self->$orig(@_) if !$args{inline_constructor};
 
     # otherwise, explicitly ask for the constructor to be replaced (to suppress
     # the warning message), since this is the expected usage, and shouldn't
