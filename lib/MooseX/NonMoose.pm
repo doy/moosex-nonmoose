@@ -40,15 +40,44 @@ the same terms as perl itself.
 
 =head1 TODO
 
+=over 4
+
+=item Provide some way to manipulate the argument list that gets passed to the
+superclass constructor, to support setting attributes in the constructor for a
+subclass of a class whose constructor does strict argument checking.
+
+=item Allow for constructors with names other than 'C<new>'.
+
+=back
+
 =head1 SEE ALSO
 
-L<Moose>
-
-L<MooseX::Alien>
+L<MooseX::Alien> - serves the same purpose, but with a radically different (and
+far more hackish and worse) implementation.
 
 =head1 BUGS/CAVEATS
 
-No known bugs.
+=over 4
+
+=item The reference that the non-Moose class uses as its instance type B<must>
+match the instance type that Moose is using (currently, Moose only supports
+hashref based instances).
+
+=item Arguments passed to the constructor will be passed as-is to the
+superclass constructor - there is currently no BUILDARGS-like munging available
+for this step (BUILDARGS is still available to munge the argument list that
+Moose sees).
+
+=item Completely overriding the constructor in a class using
+C<MooseX::NonMoose> (i.e. using "C<sub new { ... }>") currently doesn't work,
+although using method modifiers on the constructor should work identically to
+normal Moose classes.
+
+=item C<MooseX::NonMoose> currently assumes in several places that the
+superclass constructor will be called 'C<new>'. This may be made configurable
+in the future.
+
+=back
 
 Please report any bugs through RT: email
 C<bug-moosex-nonmoose at rt.cpan.org>, or browse to
