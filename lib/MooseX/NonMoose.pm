@@ -42,11 +42,11 @@ the same terms as perl itself.
 
 =over 4
 
-=item Provide some way to manipulate the argument list that gets passed to the
+=item * Provide some way to manipulate the argument list that gets passed to the
 superclass constructor, to support setting attributes in the constructor for a
 subclass of a class whose constructor does strict argument checking.
 
-=item Allow for constructors with names other than 'C<new>'.
+=item * Allow for constructors with names other than C<new>.
 
 =back
 
@@ -59,22 +59,22 @@ far more hackish and worse) implementation.
 
 =over 4
 
-=item The reference that the non-Moose class uses as its instance type B<must>
+=item * The reference that the non-Moose class uses as its instance type B<must>
 match the instance type that Moose is using (currently, Moose only supports
 hashref based instances).
 
-=item Arguments passed to the constructor will be passed as-is to the
+=item * Arguments passed to the constructor will be passed as-is to the
 superclass constructor - there is currently no BUILDARGS-like munging available
 for this step (BUILDARGS is still available to munge the argument list that
 Moose sees).
 
-=item Completely overriding the constructor in a class using
-C<MooseX::NonMoose> (i.e. using "C<sub new { ... }>") currently doesn't work,
+=item * Completely overriding the constructor in a class using
+C<MooseX::NonMoose> (i.e. using C<sub new { ... }>) currently doesn't work,
 although using method modifiers on the constructor should work identically to
 normal Moose classes.
 
-=item C<MooseX::NonMoose> currently assumes in several places that the
-superclass constructor will be called 'C<new>'. This may be made configurable
+=item * C<MooseX::NonMoose> currently assumes in several places that the
+superclass constructor will be called C<new>. This may be made configurable
 in the future.
 
 =back
