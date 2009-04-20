@@ -10,11 +10,24 @@ has replace_constructor => (
 around _make_immutable_transformer => sub {
     my $orig = shift;
     my $self = shift;
+
+    # do nothing if extends was never called
+    return $self->$orig(@_) if !$self->replace_constructor;
+
+    # do nothing if extends was called, but we then added a method modifier to
+    # the constructor (this will warn, but that's okay)
+    return $self->$orig(@_)
+        if $self->get_method('new')->isa('Class::MOP::Method::Wrapped');
+
+    # do nothing if we explicitly ask for the constructor to not be inlined
     my %args = @_;
     return $self->$orig(@_) if exists $args{inline_constructor}
                             && !$args{inline_constructor};
-    $args{replace_constructor} = 1 if $self->replace_constructor;
-    $self->$orig(%args);
+
+    # otherwise, explicitly ask for the constructor to be replaced (to suppress
+    # the warning message), since this is the expected usage, and shouldn't
+    # cause a warning
+    return $self->$orig(replace_constructor => 1, @_);
 };
 
 around superclasses => sub {
