@@ -50,11 +50,6 @@ subclass of a class whose constructor does strict argument checking.
 
 =back
 
-=head1 SEE ALSO
-
-L<MooseX::Alien> - serves the same purpose, but with a radically different (and
-far more hackish and worse) implementation.
-
 =head1 BUGS/CAVEATS
 
 =over 4
@@ -82,6 +77,11 @@ in the future.
 Please report any bugs through RT: email
 C<bug-moosex-nonmoose at rt.cpan.org>, or browse to
 L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=MooseX-NonMoose>.
+
+=head1 SEE ALSO
+
+L<MooseX::Alien> - serves the same purpose, but with a radically different (and
+far more hackish and worse) implementation.
 
 =head1 SUPPORT
 
