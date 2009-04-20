@@ -8,6 +8,30 @@ MooseX::NonMoose - easy subclassing of non-Moose classes
 
 =head1 SYNOPSIS
 
+  package Term::VT102::NBased;
+  use Moose;
+  use MooseX::NonMoose;
+  extends 'Term::VT102';
+
+  has [qw/x_base y_base/] => (
+      is      => 'ro',
+      isa     => 'Int',
+      default => 1,
+  );
+
+  around x => sub {
+      my $orig = shift;
+      my $self = shift;
+      $self->$orig(@_) + $self->x_base - 1;
+  };
+
+  # ... (wrap other methods)
+
+  no Moose;
+  __PACKAGE__->meta->make_immutable;
+
+  my $vt = Term::VT102::NBased->new(x_base => 0, y_base => 0);
+
 =head1 DESCRIPTION
 
 =cut
