@@ -10,9 +10,11 @@ has replace_constructor => (
 around _make_immutable_transformer => sub {
     my $orig = shift;
     my $self = shift;
-    my @args = @_;
-    unshift @args, replace_constructor => 1 if $self->replace_constructor;
-    $self->$orig(@args);
+    my %args = @_;
+    return $self->$orig(@_) if exists $args{inline_constructor}
+                            && !$args{inline_constructor};
+    $args{replace_constructor} = 1 if $self->replace_constructor;
+    $self->$orig(%args);
 };
 
 around superclasses => sub {
