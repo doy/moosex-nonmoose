@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 7;
+use Test::More tests => 8;
 
 package Foo;
 
@@ -21,6 +21,7 @@ my $foo_moose = Foo::Moose->new;
 isa_ok $foo, 'Foo';
 is $foo->{_class}, 'Foo', 'Foo gets the correct class';
 isa_ok $foo_moose, 'Foo::Moose';
+isa_ok $foo_moose, 'Foo';
 is $foo_moose->{_class}, 'Foo::Moose', 'Foo::Moose gets the correct class';
 my $meta = Foo::Moose->meta;
 ok $meta->has_method('new'), 'Foo::Moose has its own constructor';
