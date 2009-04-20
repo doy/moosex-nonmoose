@@ -20,6 +20,6 @@ sub bar { 'Foo::Moose' }
 package main;
 
 my $foo_moose = Foo::Moose->new;
-is $foo_moose->foo, 'Foo', 'Foo::Moose->foo';
-is $foo_moose->bar, 'Foo::Moose', 'Foo::Moose->bar';
-is $foo_moose->baz, 'Foo::Moose', 'Foo::Moose->baz';
+is($foo_moose->foo, 'Foo', 'Foo::Moose->foo');
+is($foo_moose->bar, 'Foo::Moose', 'Foo::Moose->bar');
+is($foo_moose->baz, 'Foo::Moose', 'Foo::Moose->baz');

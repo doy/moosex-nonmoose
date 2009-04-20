@@ -34,22 +34,22 @@ has baz => (
 
 package main;
 my $foo_moose = Foo::Moose->new;
-is $foo_moose->foo, 'FOO', 'Foo::Moose::foo';
-is $foo_moose->bar, 'BAR', 'Foo::Moose::bar';
+is($foo_moose->foo, 'FOO', 'Foo::Moose::foo');
+is($foo_moose->bar, 'BAR', 'Foo::Moose::bar');
 isnt(Foo::Moose->meta->get_method('new'), undef,
      'Foo::Moose gets its own constructor');
 
 my $foo_moose_sub = Foo::Moose::Sub->new;
-is $foo_moose_sub->foo, 'FOO', 'Foo::Moose::Sub::foo';
-is $foo_moose_sub->bar, 'BAR', 'Foo::Moose::Sub::bar';
-is $foo_moose_sub->baz, 'BAZ', 'Foo::Moose::Sub::baz';
+is($foo_moose_sub->foo, 'FOO', 'Foo::Moose::Sub::foo');
+is($foo_moose_sub->bar, 'BAR', 'Foo::Moose::Sub::bar');
+is($foo_moose_sub->baz, 'BAZ', 'Foo::Moose::Sub::baz');
 is(Foo::Moose::Sub->meta->get_method('new'), undef,
    'Foo::Moose::Sub just uses the constructor for Foo::Moose');
 
 Foo::Moose::Sub->meta->make_immutable;
 $foo_moose_sub = Foo::Moose::Sub->new;
-is $foo_moose_sub->foo, 'FOO', 'Foo::Moose::Sub::foo (immutable)';
-is $foo_moose_sub->bar, 'BAR', 'Foo::Moose::Sub::bar (immutable)';
-is $foo_moose_sub->baz, 'BAZ', 'Foo::Moose::Sub::baz (immutable)';
+is($foo_moose_sub->foo, 'FOO', 'Foo::Moose::Sub::foo (immutable)');
+is($foo_moose_sub->bar, 'BAR', 'Foo::Moose::Sub::bar (immutable)');
+is($foo_moose_sub->baz, 'BAZ', 'Foo::Moose::Sub::baz (immutable)');
 isnt(Foo::Moose::Sub->meta->get_method('new'), undef,
      'Foo::Moose::Sub has an inlined constructor');

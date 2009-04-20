@@ -48,10 +48,10 @@ sub BUILD {
 
 package main;
 my $foo_moose = Foo::Moose->new;
-is $foo_moose->class, 'Foo::Moose', 'BUILD method called properly';
-is $foo_moose->accum, 'a', 'BUILD method called properly';
+is($foo_moose->class, 'Foo::Moose', 'BUILD method called properly');
+is($foo_moose->accum, 'a', 'BUILD method called properly');
 
 my $foo_moose_sub = Foo::Moose::Sub->new;
-is $foo_moose_sub->class, 'Foo::Moose::Sub', 'parent BUILD method called';
-is $foo_moose_sub->bar, 'BAR', 'child BUILD method called';
-is $foo_moose_sub->accum, 'ab', 'BUILD methods called in the correct order';
+is($foo_moose_sub->class, 'Foo::Moose::Sub', 'parent BUILD method called');
+is($foo_moose_sub->bar, 'BAR', 'child BUILD method called');
+is($foo_moose_sub->accum, 'ab', 'BUILD methods called in the correct order');
