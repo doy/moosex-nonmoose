@@ -1,7 +1,7 @@
 package MooseX::NonMoose::Meta::Role::Class;
 use Moose::Role;
 
-has replace_constructor => (
+has has_nonmoose_constructor => (
     is      => 'rw',
     isa     => 'Bool',
     default => 0,
@@ -12,7 +12,7 @@ around _make_immutable_transformer => sub {
     my $self = shift;
 
     # do nothing if extends was never called
-    return $self->$orig(@_) if !$self->replace_constructor;
+    return $self->$orig(@_) if !$self->has_nonmoose_constructor;
 
     # do nothing if extends was called, but we then added a method modifier to
     # the constructor (this will warn, but that's okay)
@@ -79,7 +79,7 @@ around superclasses => sub {
         $self->BUILDALL($params);
         return $self;
     });
-    $self->replace_constructor(1);
+    $self->has_nonmoose_constructor(1);
 
     return @ret;
 };
