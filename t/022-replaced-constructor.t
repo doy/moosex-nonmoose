@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 7;
 
 our $foo_constructed = 0;
 
@@ -21,6 +21,17 @@ after new => sub {
     $main::foo_constructed = 1;
 };
 
+package Foo::Moose2;
+use Moose;
+use MooseX::NonMoose;
+extends 'Foo';
+
+sub new {
+    my $class = shift;
+    $main::foo_constructed = 1;
+    return $class->meta->new_object(@_);
+}
+
 package main;
 my $method = Foo::Moose->meta->get_method('new');
 isa_ok($method, 'Class::MOP::Method::Wrapped');
@@ -32,3 +43,17 @@ is($method, Foo::Moose->meta->get_method('new'),
    'make_immutable doesn\'t overwrite constructor with method modifiers');
 $foo = Foo::Moose->new;
 ok($foo_constructed, 'method modifier called for the constructor (immutable)');
+
+TODO: {
+local $TODO = "not quite sure how to handle this (or if I even care)";
+$foo_constructed = 0;
+$method = Foo::Moose2->meta->get_method('new');
+$foo = Foo::Moose2->new;
+ok($foo_constructed, 'custom constructor called');
+$foo_constructed = 0;
+Foo::Moose2->meta->make_immutable;
+is($method, Foo::Moose2->meta->get_method('new'),
+   'make_immutable doesn\'t overwrite custom constructor');
+$foo = Foo::Moose2->new;
+ok($foo_constructed, 'custom constructor called (immutable)');
+}
