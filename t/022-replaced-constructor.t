@@ -38,7 +38,12 @@ isa_ok($method, 'Class::MOP::Method::Wrapped');
 my $foo = Foo::Moose->new;
 ok($foo_constructed, 'method modifier called for the constructor');
 $foo_constructed = 0;
-Foo::Moose->meta->make_immutable;
+{
+    # we don't care about the warning that moose isn't going to inline our
+    # constructor - this is the behavior we're testing
+    local $SIG{__WARN__} = sub {};
+    Foo::Moose->meta->make_immutable;
+}
 is($method, Foo::Moose->meta->get_method('new'),
    'make_immutable doesn\'t overwrite constructor with method modifiers');
 $foo = Foo::Moose->new;
