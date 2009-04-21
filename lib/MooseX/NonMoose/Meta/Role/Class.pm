@@ -60,6 +60,10 @@ around _immutable_options => sub {
 
     # do nothing if extends was called, but we then added a method modifier to
     # the constructor (this will warn, but that's okay)
+    # XXX: this is a fairly big hack, but it should cover most of the cases
+    # that actually show up in practice... it would be nice to do this properly
+    # though
+    # XXX: get constructor name from the constructor metaclass?
     return @options
         if $self->get_method('new')->isa('Class::MOP::Method::Wrapped');
 
