@@ -1,6 +1,41 @@
 package MooseX::NonMoose::Meta::Role::Class;
 use Moose::Role;
 
+=head1 NAME
+
+MooseX::NonMoose::Meta::Role::Class - metaclass trait for L<MooseX::NonMoose>
+
+=head1 SYNOPSIS
+
+  package Foo;
+  use Moose -traits => 'MooseX::NonMoose::Meta::Role::Class';
+
+  # or
+
+  package My::Moose;
+  use Moose ();
+  use Moose::Exporter;
+
+  Moose::Exporter->setup_import_methods;
+  sub init_meta {
+      shift;
+      my %options = @_;
+      Moose->init_meta(%options);
+      Moose::Util::MetaRole::apply_metaclass_roles(
+          for_class       => $options{for_class},
+          metaclass_roles => ['MooseX::NonMoose::Meta::Role::Class'],
+      );
+      return Class::MOP::class_of($options{for_class});
+  }
+
+=head1 DESCRIPTION
+
+This trait implements everything involved with extending non-Moose classes,
+other than doing the actual inlining at C<make_immutable> time. See
+L<MooseX::NonMoose> for more details.
+
+=cut
+
 has has_nonmoose_constructor => (
     is      => 'rw',
     isa     => 'Bool',
@@ -93,5 +128,18 @@ around superclasses => sub {
 };
 
 no Moose::Role;
+
+=head1 AUTHOR
+
+  Jesse Luehrs <doy at tozt dot net>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2009 by Jesse Luehrs.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as perl itself.
+
+=cut
 
 1;
