@@ -11,27 +11,29 @@ around _immutable_options => sub {
     my $orig = shift;
     my $self = shift;
 
+    my @options = $self->$orig(@_);
+
     # do nothing if extends was never called
-    return $self->$orig(@_) if !$self->has_nonmoose_constructor;
+    return @options if !$self->has_nonmoose_constructor;
 
     # if we're using just the metaclass trait, but not the constructor trait,
     # then suppress the warning about not inlining a constructor
-    return $self->$orig(inline_constructor => 0, @_)
+    return (inline_constructor => 0, @options)
         unless Class::MOP::class_of($self->constructor_class)->does_role('MooseX::NonMoose::Meta::Role::Constructor');
 
     # do nothing if extends was called, but we then added a method modifier to
     # the constructor (this will warn, but that's okay)
-    return $self->$orig(@_)
+    return @options
         if $self->get_method('new')->isa('Class::MOP::Method::Wrapped');
 
     # do nothing if we explicitly ask for the constructor to not be inlined
-    my %args = @_;
-    return $self->$orig(@_) if !$args{inline_constructor};
+    my %options = @options;
+    return @options if !$options{inline_constructor};
 
     # otherwise, explicitly ask for the constructor to be replaced (to suppress
     # the warning message), since this is the expected usage, and shouldn't
     # cause a warning
-    return $self->$orig(replace_constructor => 1, @_);
+    return (replace_constructor => 1, @options);
 };
 
 around superclasses => sub {
