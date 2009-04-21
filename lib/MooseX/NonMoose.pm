@@ -28,6 +28,7 @@ MooseX::NonMoose - easy subclassing of non-Moose classes
   # ... (wrap other methods)
 
   no Moose;
+  # no need to fiddle with inline_constructor here
   __PACKAGE__->meta->make_immutable;
 
   my $vt = Term::VT102::NBased->new(x_base => 0, y_base => 0);
