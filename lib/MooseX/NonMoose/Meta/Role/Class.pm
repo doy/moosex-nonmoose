@@ -18,8 +18,10 @@ around _immutable_options => sub {
 
     # if we're using just the metaclass trait, but not the constructor trait,
     # then suppress the warning about not inlining a constructor
-    return (inline_constructor => 0, @options)
-        unless Class::MOP::class_of($self->constructor_class)->does_role('MooseX::NonMoose::Meta::Role::Constructor');
+    my $cc_meta = Class::MOP::class_of($self->constructor_class);
+    return (@options, inline_constructor => 0)
+        unless $cc_meta->can('does_role')
+            && $cc_meta->does_role('MooseX::NonMoose::Meta::Role::Constructor');
 
     # do nothing if extends was called, but we then added a method modifier to
     # the constructor (this will warn, but that's okay)
