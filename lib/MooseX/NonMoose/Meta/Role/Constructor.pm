@@ -8,8 +8,8 @@ around can_be_inlined => sub {
     my $meta = $self->associated_metaclass;
     my $super_new = $meta->find_method_by_name($self->name);
     my $super_meta = $super_new->associated_metaclass;
-    if ($super_meta->meta->can('does_role')
-     && $super_meta->meta->does_role('MooseX::NonMoose::Meta::Role::Class')) {
+    if (Class::MOP::class_of($super_meta)->can('does_role')
+     && Class::MOP::class_of($super_meta)->does_role('MooseX::NonMoose::Meta::Role::Class')) {
         return 1;
     }
 
