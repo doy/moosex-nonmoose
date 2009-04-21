@@ -14,6 +14,11 @@ around _immutable_options => sub {
     # do nothing if extends was never called
     return $self->$orig(@_) if !$self->has_nonmoose_constructor;
 
+    # if we're using just the metaclass trait, but not the constructor trait,
+    # then suppress the warning about not inlining a constructor
+    return $self->$orig(inline_constructor => 0, @_)
+        unless Class::MOP::class_of($self->constructor_class)->does_role('MooseX::NonMoose::Meta::Role::Constructor');
+
     # do nothing if extends was called, but we then added a method modifier to
     # the constructor (this will warn, but that's okay)
     return $self->$orig(@_)
