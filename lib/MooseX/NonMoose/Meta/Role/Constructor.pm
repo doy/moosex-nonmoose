@@ -1,6 +1,39 @@
 package MooseX::NonMoose::Meta::Role::Constructor;
 use Moose::Role;
 
+=head1 NAME
+
+MooseX::NonMoose::Meta::Role::Constructor - constructor method trait for L<MooseX::NonMoose>
+
+=head1 SYNOPSIS
+
+  package My::Moose;
+  use Moose ();
+  use Moose::Exporter;
+
+  Moose::Exporter->setup_import_methods;
+  sub init_meta {
+      shift;
+      my %options = @_;
+      Moose->init_meta(%options);
+      Moose::Util::MetaRole::apply_metaclass_roles(
+          for_class               => $options{for_class},
+          metaclass_roles         => ['MooseX::NonMoose::Meta::Role::Class'],
+          constructor_class_roles =>
+              ['MooseX::NonMoose::Meta::Role::Constructor'],
+      );
+      return Class::MOP::class_of($options{for_class});
+  }
+
+=head1 DESCRIPTION
+
+This trait implements inlining of the constructor for classes using the
+L<MooseX::NonMoose::Meta::Role::Class> metaclass trait; it has no effect unless
+that trait is also used. See those docs and the docs for L<MooseX::NonMoose>
+for more information.
+
+=cut
+
 around can_be_inlined => sub {
     my $orig = shift;
     my $self = shift;
@@ -29,5 +62,18 @@ sub _generate_instance {
 }
 
 no Moose::Role;
+
+=head1 AUTHOR
+
+  Jesse Luehrs <doy at tozt dot net>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2009 by Jesse Luehrs.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as perl itself.
+
+=cut
 
 1;
