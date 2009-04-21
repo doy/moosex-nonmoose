@@ -35,6 +35,30 @@ MooseX::NonMoose - easy subclassing of non-Moose classes
 
 =head1 DESCRIPTION
 
+C<MooseX::NonMoose> allows for easily subclassing non-Moose classes with Moose,
+taking care of the annoying details connected with doing this, such as setting
+up proper inheritance from L<Moose::Object> and installing (and inlining, at
+C<make_immutable> time) a constructor that makes sure things like C<BUILD>
+methods are called. It tries to be as non-intrusive as possible - when this
+module is used, inheriting from non-Moose classes and inheriting from Moose
+classes should work identically, aside from the few caveats mentioned below.
+One of the goals of this module is that including it in a
+L<Moose::Exporter>-based package used across an entire application should be
+possible, without interfering with classes that only inherit from Moose
+modules, or even classes that don't inherit from anything at all.
+
+There are several ways to use this module. The most straightforward is to just
+C<use MooseX::NonMoose;> in your class; this should set up everything necessary
+for extending non-Moose modules. L<MooseX::NonMoose::Meta::Role::Class> and
+L<MooseX::NonMoose::Meta::Role::Constructor> can also be applied to your
+metaclasses manually, either by passing a C<-traits> option to your C<use
+Moose;> line, or by applying them using L<Moose::Util::MetaRole> in a
+L<Moose::Exporter>-based class. L<MooseX::NonMoose::Meta::Role::Class> is the
+part that provides the main functionality of this module; if you don't care
+about inlining, this is all you need to worry about. Applying
+L<MooseX::NonMoose::Meta::Role::Constructor> as well will provide an inlined
+constructor, when you immutabilize your class.
+
 =cut
 
 Moose::Exporter->setup_import_methods;
