@@ -121,7 +121,7 @@ L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=MooseX-NonMoose>.
 L<Moose::Cookbook::FAQ/How do I make non-Moose constructors work with Moose?>
 
 L<MooseX::Alien> - serves the same purpose, but with a radically different (and
-far more hackish and worse) implementation.
+far more hackish) implementation.
 
 =head1 SUPPORT
 
