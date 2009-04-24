@@ -53,11 +53,11 @@ for extending non-Moose modules. L<MooseX::NonMoose::Meta::Role::Class> and
 L<MooseX::NonMoose::Meta::Role::Constructor> can also be applied to your
 metaclasses manually, either by passing a C<-traits> option to your C<use
 Moose;> line, or by applying them using L<Moose::Util::MetaRole> in a
-L<Moose::Exporter>-based class. L<MooseX::NonMoose::Meta::Role::Class> is the
+L<Moose::Exporter>-based package. L<MooseX::NonMoose::Meta::Role::Class> is the
 part that provides the main functionality of this module; if you don't care
 about inlining, this is all you need to worry about. Applying
 L<MooseX::NonMoose::Meta::Role::Constructor> as well will provide an inlined
-constructor, when you immutabilize your class.
+constructor when you immutabilize your class.
 
 =cut
 
@@ -75,17 +75,6 @@ sub init_meta {
     );
     return Class::MOP::class_of($options{for_class});
 }
-
-=head1 AUTHOR
-
-  Jesse Luehrs <doy at tozt dot net>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2009 by Jesse Luehrs.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as perl itself.
 
 =head1 TODO
 
@@ -161,6 +150,17 @@ L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=MooseX-NonMoose>
 L<http://search.cpan.org/dist/MooseX-NonMoose>
 
 =back
+
+=head1 AUTHOR
+
+  Jesse Luehrs <doy at tozt dot net>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2009 by Jesse Luehrs.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as perl itself.
 
 =cut
 
