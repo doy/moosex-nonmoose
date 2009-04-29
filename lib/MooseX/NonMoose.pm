@@ -93,7 +93,7 @@ subclass of a class whose constructor does strict argument checking.
 =over 4
 
 =item * The reference that the non-Moose class uses as its instance type B<must>
-match the instance type that Moose is using (currently, Moose only supports
+match the instance type that Moose is using (currently, Moose defaults to
 hashref based instances).
 
 =item * Arguments passed to the constructor will be passed as-is to the
