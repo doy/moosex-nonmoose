@@ -53,12 +53,16 @@ sub _generate_instance {
     my $self = shift;
     my ($var, $class_var) = @_;
     my $new = $self->name;
-    my $super_new_class = $self->associated_metaclass->find_next_method_by_name($new)->package_name;
+    my $meta = $self->associated_metaclass;
+    my $super_new_class = $meta->find_next_method_by_name($new)->package_name;
+    my $arglist = $meta->find_method_by_name('FOREIGNBUILDARGS')
+                ? "${class_var}->FOREIGNBUILDARGS(\@_)"
+                : '@_';
     # XXX: this should probably be taking something from the meta-instance api,
     # rather than calling bless directly, but this works fine for now, and i
     # want to wait for the whole immutablization stuff to settle down before
     # digging too deeply into it
-    "my $var = bless $super_new_class->$new(\@_), $class_var;\n";
+    "my $var = bless $super_new_class->$new($arglist), $class_var;\n";
 }
 
 no Moose::Role;

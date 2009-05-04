@@ -118,7 +118,10 @@ around superclasses => sub {
         my $class = shift;
 
         my $params = $class->BUILDARGS(@_);
-        my $instance = $super_new->execute($class, @_);
+        my @foreign_params = $class->can('FOREIGNBUILDARGS')
+                           ? $class->FOREIGNBUILDARGS(@_)
+                           : @_;
+        my $instance = $super_new->execute($class, @foreign_params);
         my $self = Class::MOP::Class->initialize($class)->new_object(
             __INSTANCE__ => $instance,
             %$params,
