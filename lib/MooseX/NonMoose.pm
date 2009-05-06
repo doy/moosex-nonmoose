@@ -106,11 +106,6 @@ sub init_meta {
 match the instance type that Moose is using (currently, Moose defaults to
 hashref based instances).
 
-=item * Arguments passed to the constructor will be passed as-is to the
-superclass constructor - there is currently no BUILDARGS-like munging available
-for this step (BUILDARGS is still available to munge the argument list that
-Moose sees).
-
 =item * Completely overriding the constructor in a class using
 C<MooseX::NonMoose> (i.e. using C<sub new { ... }>) currently doesn't work,
 although using method modifiers on the constructor should work identically to
