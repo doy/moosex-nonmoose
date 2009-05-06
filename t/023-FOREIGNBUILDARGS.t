@@ -7,7 +7,6 @@ package Foo;
 
 sub new {
     my $class = shift;
-    warn "@_";
     bless { foo_base => $_[0] }, $class;
 }
 
