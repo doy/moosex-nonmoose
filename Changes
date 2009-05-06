@@ -1,5 +1,9 @@
 Revision history for MooseX::NonMoose
 
+0.03    05/06/2009
+    Add a FOREIGNBUILDARGS method to support modifying the argument list passed
+    to the non-Moose constructor
+
 0.02    04/29/2009
     A few minor doc fixes
 
