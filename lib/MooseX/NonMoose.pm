@@ -59,19 +59,12 @@ about inlining, this is all you need to worry about. Applying
 L<MooseX::NonMoose::Meta::Role::Constructor> as well will provide an inlined
 constructor when you immutabilize your class.
 
-MooseX::NonMoose provides a way to manipulate the argument list that gets
-passed to the superclass constructor: FOREIGNBUILDARGS. This supports setting
-attributes in the constructor for a subclass of a class whose constructor does
-strict argument checking.
-
-  sub FOREIGNBUILDARGS {
-      my $class = shift;
-      my %args = @_;
-
-      # Returns a list that is appropriate for what you would
-      # use for arguments in the superclass constructor.
-      return massage_for_baseclass_args(%args);
-  }
+C<MooseX::NonMoose> allows you to manipulate the argument list that gets passed
+to the superclass constructor by defining a C<FOREIGNBUILDARGS> method. This is
+called with the same argument list as the C<BUILDARGS> method, but should
+return a list of arguments to pass to the superclass constructor. This allows
+C<MooseX::NonMoose> to support superclasses whose constructors would get
+confused by the extra arguments that Moose requires (for attributes, etc.)
 
 =cut
 
