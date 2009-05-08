@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 8;
+use Test::More tests => 9;
 
 package Foo;
 
@@ -46,6 +46,15 @@ sub BUILDARGS {
     return { bar => shift };
 }
 
+# XXX XXX XXX
+package Baz::Moose;
+use Moose;
+extends 'Bar::Moose';
+
+has baz => (
+    is => 'rw',
+);
+
 package main;
 
 my $foo = Foo::Moose->new(foo => 'bar');
@@ -62,3 +71,9 @@ is($foo->foo,  'bar', 'subclass constructor gets the right args (immutable)');
 is($foo->foo_base,  'bar_base', 'subclass constructor gets the right args (immutable)');
 is($bar->bar, 'baz', 'subclass constructor gets the right args (immutable)');
 is($bar->foo_base, 'baz_base', 'subclass constructor gets the right args (immutable)');
+
+TODO: {
+    todo_skip "can't extend classes that use FOREIGNBUILDARGS yet", 1;
+    my $baz = Baz::Moose->new('bazbaz');
+    is($baz->bar, 'bazbaz_base', 'extensions of extensions of the nonmoose class respect FOREIGNBUILDARGS');
+}
