@@ -95,9 +95,13 @@ sub init_meta {
 
 =over 4
 
-=item * The reference that the non-Moose class uses as its instance type B<must>
-match the instance type that Moose is using (currently, Moose defaults to
-hashref based instances).
+=item * The reference that the non-Moose class uses as its instance type
+B<must> match the instance type that Moose is using. Moose's default instance
+type is a hashref, but other modules exist to make Moose use other instance
+types. L<MooseX::InsideOut> is the most general solution - it should work with
+any class. For globref-based classes in particular, L<MooseX::GlobRef> will
+also allow Moose to work. For more information, see the C<032-moosex-insideout>
+and C<033-moosex-globref> tests bundled with this dist.
 
 =item * Completely overriding the constructor in a class using
 C<MooseX::NonMoose> (i.e. using C<sub new { ... }>) currently doesn't work,
