@@ -46,6 +46,7 @@ is($foo_moose_sub->baz, 'BAZ', 'Foo::Moose::Sub::baz');
 is(Foo::Moose::Sub->meta->get_method('new'), undef,
    'Foo::Moose::Sub just uses the constructor for Foo::Moose');
 
+Foo::Moose->meta->make_immutable;
 Foo::Moose::Sub->meta->make_immutable;
 $foo_moose_sub = Foo::Moose::Sub->new;
 is($foo_moose_sub->foo, 'FOO', 'Foo::Moose::Sub::foo (immutable)');
