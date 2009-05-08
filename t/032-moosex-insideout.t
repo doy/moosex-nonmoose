@@ -5,7 +5,7 @@ use Test::More;
 BEGIN {
     eval "use MooseX::InsideOut ()";
     plan skip_all => "MooseX::InsideOut is required for this test" if $@;
-    plan tests => 2;
+    plan tests => 8;
 }
 
 BEGIN {
@@ -63,3 +63,15 @@ package main;
 my $foo = Foo::Moose->new('FOO', bar => 'BAR');
 is($foo->foo, 'FOO', 'base class accessor works');
 is($foo->bar, 'BAR', 'subclass accessor works');
+$foo->foo('OOF');
+$foo->bar('RAB');
+is($foo->foo, 'OOF', 'base class accessor works (setting)');
+is($foo->bar, 'RAB', 'subclass accessor works (setting)');
+Foo::Moose->meta->make_immutable;
+$foo = Foo::Moose->new('FOO', bar => 'BAR');
+is($foo->foo, 'FOO', 'base class accessor works (immutable)');
+is($foo->bar, 'BAR', 'subclass accessor works (immutable)');
+$foo->foo('OOF');
+$foo->bar('RAB');
+is($foo->foo, 'OOF', 'base class accessor works (setting) (immutable)');
+is($foo->bar, 'RAB', 'subclass accessor works (setting) (immutable)');
