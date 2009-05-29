@@ -24,7 +24,6 @@ has bar => (
 
 package Foo::Moose::Sub;
 use Moose;
-use MooseX::NonMoose;
 extends 'Foo::Moose';
 
 has baz => (

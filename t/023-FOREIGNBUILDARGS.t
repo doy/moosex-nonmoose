@@ -48,7 +48,6 @@ sub BUILDARGS {
 
 package Baz::Moose;
 use Moose;
-use MooseX::NonMoose;
 extends 'Bar::Moose';
 
 has baz => (
