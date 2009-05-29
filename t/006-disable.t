@@ -28,6 +28,6 @@ Foo::Moose->meta->make_immutable;
 isnt($method, Foo::Moose->meta->get_method('new'),
      'make_immutable replaced the constructor with an inlined version');
 my $method2 = Foo::Moose2->meta->get_method('new');
-Foo::Moose->meta->make_immutable(inline_constructor => 0);
+Foo::Moose2->meta->make_immutable(inline_constructor => 0);
 is($method2, Foo::Moose2->meta->get_method('new'),
    'make_immutable doesn\'t replace the constructor if we ask it not to');
