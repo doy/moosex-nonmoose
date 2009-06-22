@@ -55,7 +55,7 @@ sub _generate_instance {
     my $new = $self->name;
     my $meta = $self->associated_metaclass;
     my $super_new_class = $meta->find_next_method_by_name($new)->package_name;
-    my $arglist = $meta->find_method_by_name('FOREIGNBUILDARGS')
+    my $arglist = $meta->get_method('FOREIGNBUILDARGS')
                 ? "${class_var}->FOREIGNBUILDARGS(\@_)"
                 : '@_';
     # XXX: this should probably be taking something from the meta-instance api,
