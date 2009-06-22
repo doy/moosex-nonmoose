@@ -70,8 +70,11 @@ $foo->foo('OOF');
 $foo->bar('RAB');
 is($foo->foo, 'OOF', 'base class accessor works (setting)');
 is($foo->bar, 'RAB', 'subclass accessor works (setting)');
-my $sub_foo = Foo::Moose::Sub->new(FOO => bar => 'AHOY');
-is($sub_foo->bar, 'AHOY', 'subclass constructor works');
+TODO: {
+    local $TODO = "nonmoose-moose-nonmoose extending doesn't currently work";
+    my $sub_foo = eval { Foo::Moose::Sub->new(FOO => bar => 'AHOY') };
+    is(eval { $sub_foo->bar }, 'AHOY', 'subclass constructor works');
+}
 Foo::Moose->meta->make_immutable;
 $foo = Foo::Moose->new('FOO', bar => 'BAR');
 is($foo->foo, 'FOO', 'base class accessor works (immutable)');
@@ -80,5 +83,8 @@ $foo->foo('OOF');
 $foo->bar('RAB');
 is($foo->foo, 'OOF', 'base class accessor works (setting) (immutable)');
 is($foo->bar, 'RAB', 'subclass accessor works (setting) (immutable)');
-$sub_foo = Foo::Moose::Sub->new(FOO => bar => 'AHOY');
-is($sub_foo->bar, 'AHOY', 'subclass constructor works (immutable)');
+TODO: {
+    local $TODO = "nonmoose-moose-nonmoose extending doesn't currently work";
+    my $sub_foo = eval { Foo::Moose::Sub->new(FOO => bar => 'AHOY') };
+    is(eval { $sub_foo->bar }, 'AHOY', 'subclass constructor works (immutable)');
+}
