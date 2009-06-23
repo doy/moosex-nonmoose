@@ -1,5 +1,16 @@
 Revision history for MooseX::NonMoose
 
+0.04
+    Add tests and official support for alternate instance metaclasses, such as
+    MooseX::GlobRef and MooseX::InsideOut - including supplying a custom
+    exporter MooseX::NonMoose::InsideOut which should work in all possible
+    cases, when just using the same hash that the nonmoose class is using would
+    break
+
+    Fix a couple issues with inheriting from MooseX::NonMoose classes - make
+    sure FOREIGNBUILDARGS is only called once, and fix some issues with
+    immutability
+
 0.03    05/06/2009
     Add a FOREIGNBUILDARGS method to support modifying the argument list passed
     to the non-Moose constructor
