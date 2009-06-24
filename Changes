@@ -1,5 +1,8 @@
 Revision history for MooseX::NonMoose
 
+0.05    06/24/2009
+    gaaaaah, packaging is so stupid (remove stray test.pl file)
+
 0.04    06/23/2009
     Add tests and official support for alternate instance metaclasses, such as
     MooseX::GlobRef and MooseX::InsideOut - including supplying a custom
