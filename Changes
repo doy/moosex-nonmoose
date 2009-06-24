@@ -1,6 +1,6 @@
 Revision history for MooseX::NonMoose
 
-0.04
+0.04    06/23/2009
     Add tests and official support for alternate instance metaclasses, such as
     MooseX::GlobRef and MooseX::InsideOut - including supplying a custom
     exporter MooseX::NonMoose::InsideOut which should work in all possible
