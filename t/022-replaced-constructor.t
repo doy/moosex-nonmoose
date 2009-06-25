@@ -49,8 +49,6 @@ is($method, Foo::Moose->meta->get_method('new'),
 $foo = Foo::Moose->new;
 ok($foo_constructed, 'method modifier called for the constructor (immutable)');
 
-TODO: {
-local $TODO = "not quite sure how to handle this (or if I even care)";
 $foo_constructed = 0;
 $method = Foo::Moose2->meta->get_method('new');
 $foo = Foo::Moose2->new;
@@ -61,4 +59,3 @@ is($method, Foo::Moose2->meta->get_method('new'),
    'make_immutable doesn\'t overwrite custom constructor');
 $foo = Foo::Moose2->new;
 ok($foo_constructed, 'custom constructor called (immutable)');
-}
