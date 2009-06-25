@@ -1,5 +1,8 @@
 Revision history for MooseX::NonMoose
 
+0.06
+    defining a custom constructor in a class using mx-nonmoose now works
+
 0.05    06/24/2009
     gaaaaah, packaging is so stupid (remove stray test.pl file)
 
