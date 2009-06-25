@@ -89,6 +89,8 @@ around superclasses => sub {
 
     my @ret = $self->$orig(@superclasses);
 
+    # if the current class defined a custom new method (since subs happen at
+    # BEGIN time), don't try to override it
     return if $self->has_method('new');
 
     # we need to get the non-moose constructor from the superclass
