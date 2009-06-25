@@ -54,7 +54,8 @@ $method = Foo::Moose2->meta->get_method('new');
 $foo = Foo::Moose2->new;
 ok($foo_constructed, 'custom constructor called');
 $foo_constructed = 0;
-Foo::Moose2->meta->make_immutable;
+# still need to specify inline_constructor => 0 when overriding new manually
+Foo::Moose2->meta->make_immutable(inline_constructor => 0);
 is($method, Foo::Moose2->meta->get_method('new'),
    'make_immutable doesn\'t overwrite custom constructor');
 $foo = Foo::Moose2->new;
