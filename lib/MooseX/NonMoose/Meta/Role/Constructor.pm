@@ -58,11 +58,8 @@ sub _generate_instance {
     my $arglist = $meta->get_method('FOREIGNBUILDARGS')
                 ? "${class_var}->FOREIGNBUILDARGS(\@_)"
                 : '@_';
-    # XXX: this should probably be taking something from the meta-instance api,
-    # rather than calling bless directly, but this works fine for now, and i
-    # want to wait for the whole immutablization stuff to settle down before
-    # digging too deeply into it
-    "my $var = bless $super_new_class->$new($arglist), $class_var;\n";
+    my $instance = "$super_new_class->$new($arglist)";
+    "my $var = " . $self->_meta_instance->inline_rebless_instance_structure($instance, $class_var) . ";\n";
 }
 
 no Moose::Role;
