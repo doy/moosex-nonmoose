@@ -89,6 +89,8 @@ around superclasses => sub {
 
     my @ret = $self->$orig(@superclasses);
 
+    return if $self->has_method('new');
+
     # we need to get the non-moose constructor from the superclass
     # of the class where this method actually exists, regardless of what class
     # we're calling it on
