@@ -73,7 +73,8 @@ Moose::Exporter->setup_import_methods;
 sub init_meta {
     shift;
     my %options = @_;
-    Moose->init_meta(%options);
+    Carp::cluck('Roles have no use for MooseX::NonMoose')
+        if Class::MOP::class_of($options{for_class})->isa('Moose::Meta::Role');
     Moose::Util::MetaRole::apply_metaclass_roles(
         for_class               => $options{for_class},
         metaclass_roles         => ['MooseX::NonMoose::Meta::Role::Class'],
