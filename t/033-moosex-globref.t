@@ -71,7 +71,7 @@ is($handle->bar, 'RAB', 'moose accessor works properly (setting)');
 SKIP: {
     my $fh = IO::File::Moose->new(baz => 'BAZ');
     open $fh, "+>", undef
-        or skip "couldn't open a temporary file", 4;
+        or skip "couldn't open a temporary file", 3;
     is($fh->baz, 'BAZ', "accessor works");
     $fh->baz('ZAB');
     is($fh->baz, 'ZAB', "accessor works (writing)");
@@ -86,7 +86,7 @@ IO::File::Moose->meta->make_immutable;
 SKIP: {
     my $fh = IO::File::Moose->new(baz => 'BAZ');
     open $fh, "+>", undef
-        or skip "couldn't open a temporary file", 4;
+        or skip "couldn't open a temporary file", 3;
     is($fh->baz, 'BAZ', "accessor works");
     $fh->baz('ZAB');
     is($fh->baz, 'ZAB', "accessor works (writing)");
