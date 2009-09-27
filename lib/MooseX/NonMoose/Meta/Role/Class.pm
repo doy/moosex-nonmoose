@@ -1,5 +1,6 @@
 package MooseX::NonMoose::Meta::Role::Class;
 use Moose::Role;
+use List::MoreUtils qw(any);
 
 =head1 NAME
 
@@ -114,8 +115,8 @@ around superclasses => sub {
 
         # if the constructor we're inheriting is an inlined version of the
         # default moose constructor, don't do anything either
-        # XXX: wrong if the class overrode new manually?
-        return @ret if $constructor_class_meta->name eq 'Moose::Meta::Method::Constructor';
+        return @ret if any { $_->isa($constructor_class_meta->name) }
+                           $super_new->associated_metaclass->_inlined_methods;
     }
 
     $self->add_method(new => sub {
