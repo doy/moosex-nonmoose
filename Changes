@@ -1,7 +1,11 @@
 Revision history for MooseX::NonMoose
 
-0.06
+0.06    09/27/2009
     defining a custom constructor in a class using mx-nonmoose now works
+
+    use a less broken test for whether or not a superclass has an inlined
+    constructor (fixes issue uncovered by fixes to Moose's metaclass
+    compatibility fixing)
 
 0.05    06/24/2009
     gaaaaah, packaging is so stupid (remove stray test.pl file)
