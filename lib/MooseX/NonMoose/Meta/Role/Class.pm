@@ -43,6 +43,12 @@ has has_nonmoose_constructor => (
     default => 0,
 );
 
+has has_nonmoose_destructor => (
+    is  => 'rw',
+    isa => 'Bool',
+    default => 0,
+);
+
 around _immutable_options => sub {
     my $orig = shift;
     my $self = shift;
@@ -78,17 +84,8 @@ around _immutable_options => sub {
     return (replace_constructor => 1, @options);
 };
 
-around superclasses => sub {
-    my $orig = shift;
+sub _check_superclass_constructor {
     my $self = shift;
-
-    return $self->$orig unless @_;
-
-    my @superclasses = @_;
-    push @superclasses, 'Moose::Object'
-        unless grep { $_->isa('Moose::Object') } @superclasses;
-
-    my @ret = $self->$orig(@superclasses);
 
     # if the current class defined a custom new method (since subs happen at
     # BEGIN time), don't try to override it
@@ -101,7 +98,7 @@ around superclasses => sub {
     my $super_new = $self->find_next_method_by_name('new');
 
     # if we're trying to extend a (non-immutable) moose class, just do nothing
-    return @ret if $super_new->package_name eq 'Moose::Object';
+    return if $super_new->package_name eq 'Moose::Object';
 
     if ($super_new->associated_metaclass->can('constructor_class')) {
         my $constructor_class_meta = Class::MOP::Class->initialize(
@@ -110,13 +107,13 @@ around superclasses => sub {
 
         # if the constructor we're inheriting is already one of ours, there's
         # no reason to install a new one
-        return @ret if $constructor_class_meta->can('does_role')
-                    && $constructor_class_meta->does_role('MooseX::NonMoose::Meta::Role::Constructor');
+        return if $constructor_class_meta->can('does_role')
+               && $constructor_class_meta->does_role('MooseX::NonMoose::Meta::Role::Constructor');
 
         # if the constructor we're inheriting is an inlined version of the
         # default moose constructor, don't do anything either
-        return @ret if any { $_->isa($constructor_class_meta->name) }
-                           $super_new->associated_metaclass->_inlined_methods;
+        return if any { $_->isa($constructor_class_meta->name) }
+                      $super_new->associated_metaclass->_inlined_methods;
     }
 
     $self->add_method(new => sub {
@@ -135,6 +132,75 @@ around superclasses => sub {
         return $self;
     });
     $self->has_nonmoose_constructor(1);
+}
+
+sub _check_superclass_destructor {
+    my $self = shift;
+
+    # if the current class defined a custom DESTROY method (since subs happen
+    # at BEGIN time), don't try to override it
+    return if $self->has_method('DESTROY');
+
+    # we need to get the non-moose destructor from the superclass
+    # of the class where this method actually exists, regardless of what class
+    # we're calling it on
+    my $super_DESTROY = $self->find_next_method_by_name('DESTROY');
+
+    # if we're trying to extend a (non-immutable) moose class, just do nothing
+    return if $super_DESTROY->package_name eq 'Moose::Object';
+
+    if ($super_DESTROY->associated_metaclass->can('destructor_class')
+     && $super_DESTROY->associated_metaclass->destructor_class) {
+        my $destructor_class_meta = Class::MOP::Class->initialize(
+            $super_DESTROY->associated_metaclass->destructor_class
+        );
+
+        # if the destructor we're inheriting is already one of ours, there's
+        # no reason to install a new one
+        return if $destructor_class_meta->can('does_role')
+               && $destructor_class_meta->does_role('MooseX::NonMoose::Meta::Role::Destructor');
+
+        # if the destructor we're inheriting is an inlined version of the
+        # default moose destructor, don't do anything
+        return if any { $_->isa($destructor_class_meta->name) }
+                      $super_DESTROY->associated_metaclass->_inlined_methods;
+    }
+
+    $self->add_method(DESTROY => sub {
+        my $self = shift;
+
+        local $?;
+
+        Try::Tiny::try {
+            $super_DESTROY->execute($self);
+            $self->DEMOLISHALL(Devel::GlobalDestruction::in_global_destruction);
+        }
+        Try::Tiny::catch {
+            # Without this, Perl will warn "\t(in cleanup)$@" because of some
+            # bizarre fucked-up logic deep in the internals.
+            no warnings 'misc';
+            die $_;
+        };
+
+        return;
+    });
+    $self->has_nonmoose_destructor(1);
+}
+
+around superclasses => sub {
+    my $orig = shift;
+    my $self = shift;
+
+    return $self->$orig unless @_;
+
+    my @superclasses = @_;
+    push @superclasses, 'Moose::Object'
+        unless grep { $_->isa('Moose::Object') } @superclasses;
+
+    my @ret = $self->$orig(@superclasses);
+
+    $self->_check_superclass_constructor;
+    $self->_check_superclass_destructor;
 
     return @ret;
 };
