@@ -49,14 +49,9 @@ has has_nonmoose_destructor => (
     default => 0,
 );
 
-around _immutable_options => sub {
-    my $orig = shift;
+sub _determine_constructor_options {
     my $self = shift;
-
-    my @options = $self->$orig(@_);
-
-    # do nothing if extends was never called
-    return @options if !$self->has_nonmoose_constructor;
+    my @options = @_;
 
     # if we're using just the metaclass trait, but not the constructor trait,
     # then suppress the warning about not inlining a constructor
@@ -82,6 +77,43 @@ around _immutable_options => sub {
     # the warning message), since this is the expected usage, and shouldn't
     # cause a warning
     return (replace_constructor => 1, @options);
+}
+
+sub _determine_destructor_options {
+    my $self = shift;
+    my @options = @_;
+
+    # if we're using just the metaclass trait, but not the destructor trait,
+    # then suppress the warning about not inlining a destructor
+    my $dc_meta = Class::MOP::class_of($self->destructor_class);
+    return (@options, inline_destructor => 0)
+        unless $dc_meta->can('does_role')
+            && $dc_meta->does_role('MooseX::NonMoose::Meta::Role::Destructor');
+
+    # do nothing if we explicitly ask for the destructor to not be inlined
+    my %options = @options;
+    return @options if !$options{inline_destructor};
+
+    # otherwise, explicitly ask for the destructor to be replaced (to suppress
+    # the warning message), since this is the expected usage, and shouldn't
+    # cause a warning
+    return (replace_destructor => 1, @options);
+}
+
+around _immutable_options => sub {
+    my $orig = shift;
+    my $self = shift;
+
+    my @options = $self->$orig(@_);
+
+    # do nothing if extends was never called
+    return @options if !$self->has_nonmoose_constructor
+                    && !$self->has_nonmoose_destructor;
+
+    @options = $self->_determine_constructor_options(@options);
+    @options = $self->_determine_destructor_options(@options);
+
+    return @options;
 };
 
 sub _check_superclass_constructor {
