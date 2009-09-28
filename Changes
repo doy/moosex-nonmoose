@@ -1,5 +1,11 @@
 Revision history for MooseX::NonMoose
 
+0.07    09/27/2009
+    Start adding support for non-Moose destructors. Destructor inlining isn't
+    supported yet, since Moose isn't quite flexible enough there for it to be
+    more than an annoying hack, but this should still work with immutable
+    classes anyway.
+
 0.06    09/27/2009
     defining a custom constructor in a class using mx-nonmoose now works
 
