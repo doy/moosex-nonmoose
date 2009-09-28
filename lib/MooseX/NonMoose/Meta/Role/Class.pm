@@ -83,21 +83,7 @@ sub _determine_destructor_options {
     my $self = shift;
     my @options = @_;
 
-    # if we're using just the metaclass trait, but not the destructor trait,
-    # then suppress the warning about not inlining a destructor
-    my $dc_meta = Class::MOP::class_of($self->destructor_class);
-    return (@options, inline_destructor => 0)
-        unless $dc_meta->can('does_role')
-            && $dc_meta->does_role('MooseX::NonMoose::Meta::Role::Destructor');
-
-    # do nothing if we explicitly ask for the destructor to not be inlined
-    my %options = @options;
-    return @options if !$options{inline_destructor};
-
-    # otherwise, explicitly ask for the destructor to be replaced (to suppress
-    # the warning message), since this is the expected usage, and shouldn't
-    # cause a warning
-    return (replace_destructor => 1, @options);
+    return (@options, inline_destructor => 0);
 }
 
 around _immutable_options => sub {
@@ -186,11 +172,6 @@ sub _check_superclass_destructor {
         my $destructor_class_meta = Class::MOP::Class->initialize(
             $super_DESTROY->associated_metaclass->destructor_class
         );
-
-        # if the destructor we're inheriting is already one of ours, there's
-        # no reason to install a new one
-        return if $destructor_class_meta->can('does_role')
-               && $destructor_class_meta->does_role('MooseX::NonMoose::Meta::Role::Destructor');
 
         # if the destructor we're inheriting is an inlined version of the
         # default moose destructor, don't do anything
