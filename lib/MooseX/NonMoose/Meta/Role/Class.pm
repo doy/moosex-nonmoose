@@ -142,12 +142,10 @@ sub _check_superclass_constructor {
                            ? $class->FOREIGNBUILDARGS(@_)
                            : @_;
         my $instance = $super_new->execute($class, @foreign_params);
-        my $self = Class::MOP::Class->initialize($class)->new_object(
+        return Class::MOP::Class->initialize($class)->new_object(
             __INSTANCE__ => $instance,
             %$params,
         );
-        $self->BUILDALL($params);
-        return $self;
     });
     $self->has_nonmoose_constructor(1);
 }
