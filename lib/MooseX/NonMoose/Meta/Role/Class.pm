@@ -142,6 +142,22 @@ sub _check_superclass_constructor {
                            ? $class->FOREIGNBUILDARGS(@_)
                            : @_;
         my $instance = $super_new->execute($class, @foreign_params);
+        if (!blessed($instance)) {
+            confess "The constructor for "
+                  . $super_new->associated_metaclass->name
+                  . " did not return a blessed instance";
+        }
+        elsif (!$instance->isa($class)) {
+            if (!$class->isa(blessed($instance))) {
+                confess "The constructor for "
+                      . $super_new->associated_metaclass->name
+                      . " returned an object whose class is not a parent of "
+                      . $class;
+            }
+            else {
+                bless $instance, $class;
+            }
+        }
         return Class::MOP::Class->initialize($class)->new_object(
             __INSTANCE__ => $instance,
             %$params,
