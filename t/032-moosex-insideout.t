@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More;
 BEGIN {
-    eval "use MooseX::InsideOut ()";
+    eval "use MooseX::InsideOut 0.100 ()";
     plan skip_all => "MooseX::InsideOut is required for this test" if $@;
     plan tests => 10;
 }
