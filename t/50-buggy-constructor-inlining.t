@@ -26,9 +26,7 @@ my ($Foo, $Bar, $Baz) = (0, 0, 0);
 }
 
 Baz->new;
-{ local $TODO = "need to call custom constructor for other classes, not Moose::Object->new";
 is($Foo, 1, "Foo->new is called");
-}
 { local $TODO = "need to call non-Moose constructor, not superclass constructor";
 is($Bar, 0, "Bar->new is not called");
 }

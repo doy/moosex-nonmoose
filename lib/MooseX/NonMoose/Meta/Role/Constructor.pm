@@ -46,6 +46,19 @@ around can_be_inlined => sub {
     return $self->$orig(@_);
 };
 
+sub _generate_fallback_constructor {
+    my $self = shift;
+    my ($class_var) = @_;
+    my $new = $self->name;
+    my $meta = $self->associated_metaclass;
+    my $super_new_class = $meta->find_next_method_by_name($new)->package_name;
+    my $arglist = $meta->get_method('FOREIGNBUILDARGS')
+                ? "${class_var}->FOREIGNBUILDARGS(\@_)"
+                : '@_';
+    my $instance = "${class_var}->${super_new_class}::$new($arglist)";
+    "${class_var}->Moose::Object::new(__INSTANCE__ => $instance, \@_)"
+}
+
 sub _generate_instance {
     my $self = shift;
     my ($var, $class_var) = @_;
