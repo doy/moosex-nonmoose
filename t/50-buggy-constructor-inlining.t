@@ -2,8 +2,9 @@
 use strict;
 use warnings;
 use Test::More tests => 6;
+use Test::Moose qw(with_immutable);
 
-my ($Foo, $Bar, $Baz) = (0, 0, 0);
+my ($Foo, $Bar, $Baz);
 {
     package Foo;
     sub new { $Foo++; bless {}, shift }
@@ -25,19 +26,10 @@ my ($Foo, $Bar, $Baz) = (0, 0, 0);
     sub BUILD { $Baz++ }
 }
 
-Baz->new;
-is($Foo, 1, "Foo->new is called");
-{ local $TODO = "need to call non-Moose constructor, not superclass constructor";
-is($Bar, 0, "Bar->new is not called");
-}
-is($Baz, 1, "Baz->new is called");
-
-Baz->meta->make_immutable;
-($Foo, $Bar, $Baz) = (0, 0, 0);
-
-Baz->new;
-is($Foo, 1, "Foo->new is called");
-{ local $TODO = "need to call non-Moose constructor, not superclass constructor";
-is($Bar, 0, "Bar->new is not called");
-}
-is($Baz, 1, "Baz->new is called");
+with_immutable {
+    ($Foo, $Bar, $Baz) = (0, 0, 0);
+    Baz->new;
+    is($Foo, 1, "Foo->new is called once");
+    is($Bar, 1, "Bar->BUILD is called once");
+    is($Baz, 1, "Baz->BUILD is called once");
+} 'Baz';
