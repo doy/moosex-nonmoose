@@ -1,6 +1,8 @@
 Revision history for MooseX-NonMoose
 
 {{$NEXT}}
+      - Fix several issues relating to picking the correct constructor to call
+        from the constructor that we build.
 
 0.08  2010-05-20
       - Fix inheriting from classes which don't bless their instances into the
