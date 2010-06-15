@@ -46,12 +46,25 @@ around can_be_inlined => sub {
     return $self->$orig(@_);
 };
 
+sub _find_next_nonmoose_constructor_package {
+    my $self = shift;
+    my $new = $self->name;
+    my $meta = $self->associated_metaclass;
+    for my $method (map { $_->{code} } $meta->find_all_methods_by_name($new)) {
+        next if $method->associated_metaclass->meta->can('does_role')
+             && $method->associated_metaclass->meta->does_role('MooseX::NonMoose::Meta::Role::Class');
+        return $method->package_name;
+    }
+    # this should never happen (it should find Moose::Object at least)
+    $meta->throw_error("Couldn't find a non-Moose constructor for " . $meta->name);
+}
+
 sub _generate_fallback_constructor {
     my $self = shift;
     my ($class_var) = @_;
     my $new = $self->name;
     my $meta = $self->associated_metaclass;
-    my $super_new_class = $meta->find_next_method_by_name($new)->package_name;
+    my $super_new_class = $self->_find_next_nonmoose_constructor_package;
     my $arglist = $meta->get_method('FOREIGNBUILDARGS')
                 ? "${class_var}->FOREIGNBUILDARGS(\@_)"
                 : '@_';
@@ -64,7 +77,7 @@ sub _generate_instance {
     my ($var, $class_var) = @_;
     my $new = $self->name;
     my $meta = $self->associated_metaclass;
-    my $super_new_class = $meta->find_next_method_by_name($new)->package_name;
+    my $super_new_class = $self->_find_next_nonmoose_constructor_package;
     my $arglist = $meta->get_method('FOREIGNBUILDARGS')
                 ? "${class_var}->FOREIGNBUILDARGS(\@_)"
                 : '@_';
