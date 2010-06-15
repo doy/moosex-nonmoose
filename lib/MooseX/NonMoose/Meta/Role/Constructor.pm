@@ -58,7 +58,7 @@ sub _generate_instance {
     my $arglist = $meta->get_method('FOREIGNBUILDARGS')
                 ? "${class_var}->FOREIGNBUILDARGS(\@_)"
                 : '@_';
-    my $instance = "$super_new_class->$new($arglist)";
+    my $instance = "${class_var}->${super_new_class}::$new($arglist)";
     return "my $var = $instance;\n"
          . "if (!Scalar::Util::blessed($var)) {\n"
          . "    " . $self->_inline_throw_error(
