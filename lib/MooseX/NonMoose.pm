@@ -122,6 +122,12 @@ implementation.
 
 =back
 
+=begin Pod::Coverage
+
+  init_meta
+
+=end Pod::Coverage
+
 =cut
 
 1;

@@ -48,4 +48,12 @@ sub init_meta {
     $package->$init_meta(@_);
 }
 
+=begin Pod::Coverage
+
+  init_meta
+
+=end Pod::Coverage
+
+=cut
+
 1;
