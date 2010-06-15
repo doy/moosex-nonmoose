@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 use Test::More tests => 6;
-use Test::Moose qw(with_immutable);
+use Test::Moose;
 
 my ($Foo, $Bar, $Baz);
 {

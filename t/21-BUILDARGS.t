@@ -2,6 +2,7 @@
 use strict;
 use warnings;
 use Test::More tests => 4;
+use Test::Moose;
 
 package Foo;
 
@@ -30,10 +31,8 @@ sub BUILDARGS {
 
 package main;
 
-my $foo = Foo::Moose->new('bar', foo => 'baz');
-is($foo->name, 'bar', 'superclass constructor gets the right args');
-is($foo->foo,  'baz', 'subclass constructor gets the right args');
-Foo::Moose->meta->make_immutable;
-$foo = Foo::Moose->new('bar', foo => 'baz');
-is($foo->name, 'bar', 'superclass constructor gets the right args (immutable)');
-is($foo->foo,  'baz', 'subclass constructor gets the right args (immutable)');
+with_immutable {
+    my $foo = Foo::Moose->new('bar', foo => 'baz');
+    is($foo->name, 'bar', 'superclass constructor gets the right args');
+    is($foo->foo,  'baz', 'subclass constructor gets the right args');
+} 'Foo::Moose';

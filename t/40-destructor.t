@@ -2,9 +2,9 @@
 use strict;
 use warnings;
 use Test::More tests => 4;
+use Test::Moose;
 
-my $destroyed = 0;
-my $demolished = 0;
+my ($destroyed, $demolished);
 package Foo;
 
 sub new { bless {}, shift }
@@ -19,11 +19,10 @@ extends 'Foo';
 sub DEMOLISH { $demolished++ }
 
 package main;
-{ Foo::Sub->new }
-is($destroyed, 1, "non-Moose destructor called");
-is($demolished, 1, "Moose destructor called");
-Foo::Sub->meta->make_immutable;
-($destroyed, $demolished) = (0, 0);
-{ Foo::Sub->new }
-is($destroyed, 1, "non-Moose destructor called (immutable)");
-is($demolished, 1, "Moose destructor called (immutable)");
+
+with_immutable {
+    ($destroyed, $demolished) = (0, 0);
+    { Foo::Sub->new }
+    is($destroyed, 1, "non-Moose destructor called");
+    is($demolished, 1, "Moose destructor called");
+} 'Foo::Sub';

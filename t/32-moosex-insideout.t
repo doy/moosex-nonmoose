@@ -2,6 +2,7 @@
 use strict;
 use warnings;
 use Test::More;
+use Test::Moose;
 BEGIN {
     eval "use MooseX::InsideOut 0.100 ()";
     plan skip_all => "MooseX::InsideOut is required for this test" if $@;
@@ -63,23 +64,15 @@ package Foo::Moose::Sub;
 use base 'Foo::Moose';
 
 package main;
-my $foo = Foo::Moose->new('FOO', bar => 'BAR');
-is($foo->foo, 'FOO', 'base class accessor works');
-is($foo->bar, 'BAR', 'subclass accessor works');
-$foo->foo('OOF');
-$foo->bar('RAB');
-is($foo->foo, 'OOF', 'base class accessor works (setting)');
-is($foo->bar, 'RAB', 'subclass accessor works (setting)');
-my $sub_foo = eval { Foo::Moose::Sub->new(FOO => bar => 'AHOY') };
-is(eval { $sub_foo->bar }, 'AHOY', 'subclass constructor works');
-Foo::Moose->meta->make_immutable;
-$foo = Foo::Moose->new('FOO', bar => 'BAR');
-is($foo->foo, 'FOO', 'base class accessor works (immutable)');
-is($foo->bar, 'BAR', 'subclass accessor works (immutable)');
-$foo->foo('OOF');
-$foo->bar('RAB');
-is($foo->foo, 'OOF', 'base class accessor works (setting) (immutable)');
-is($foo->bar, 'RAB', 'subclass accessor works (setting) (immutable)');
-my $sub_foo_immutable = eval { Foo::Moose::Sub->new(FOO => bar => 'AHOY') };
-is(eval { $sub_foo_immutable->bar }, 'AHOY',
-   'subclass constructor works (immutable)');
+
+with_immutable {
+    my $foo = Foo::Moose->new('FOO', bar => 'BAR');
+    is($foo->foo, 'FOO', 'base class accessor works');
+    is($foo->bar, 'BAR', 'subclass accessor works');
+    $foo->foo('OOF');
+    $foo->bar('RAB');
+    is($foo->foo, 'OOF', 'base class accessor works (setting)');
+    is($foo->bar, 'RAB', 'subclass accessor works (setting)');
+    my $sub_foo = eval { Foo::Moose::Sub->new(FOO => bar => 'AHOY') };
+    is(eval { $sub_foo->bar }, 'AHOY', 'subclass constructor works');
+} 'Foo::Moose';
