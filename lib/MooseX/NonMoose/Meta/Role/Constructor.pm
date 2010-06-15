@@ -65,7 +65,7 @@ sub _generate_fallback_constructor {
     my $new = $self->name;
     my $meta = $self->associated_metaclass;
     my $super_new_class = $self->_find_next_nonmoose_constructor_package;
-    my $arglist = $meta->get_method('FOREIGNBUILDARGS')
+    my $arglist = $meta->find_method_by_name('FOREIGNBUILDARGS')
                 ? "${class_var}->FOREIGNBUILDARGS(\@_)"
                 : '@_';
     my $instance = "${class_var}->${super_new_class}::$new($arglist)";
@@ -78,7 +78,7 @@ sub _generate_instance {
     my $new = $self->name;
     my $meta = $self->associated_metaclass;
     my $super_new_class = $self->_find_next_nonmoose_constructor_package;
-    my $arglist = $meta->get_method('FOREIGNBUILDARGS')
+    my $arglist = $meta->find_method_by_name('FOREIGNBUILDARGS')
                 ? "${class_var}->FOREIGNBUILDARGS(\@_)"
                 : '@_';
     my $instance = "${class_var}->${super_new_class}::$new($arglist)";
