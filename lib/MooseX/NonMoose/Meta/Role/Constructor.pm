@@ -1,9 +1,6 @@
 package MooseX::NonMoose::Meta::Role::Constructor;
 use Moose::Role;
-
-=head1 NAME
-
-MooseX::NonMoose::Meta::Role::Constructor - constructor method trait for L<MooseX::NonMoose>
+# ABSTRACT: constructor method trait for L<MooseX::NonMoose>
 
 =head1 SYNOPSIS
 
@@ -78,18 +75,5 @@ sub _generate_instance {
 }
 
 no Moose::Role;
-
-=head1 AUTHOR
-
-  Jesse Luehrs <doy at tozt dot net>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2009 by Jesse Luehrs.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as perl itself.
-
-=cut
 
 1;

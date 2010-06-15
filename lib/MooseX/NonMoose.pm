@@ -1,9 +1,6 @@
 package MooseX::NonMoose;
 use Moose::Exporter;
-
-=head1 NAME
-
-MooseX::NonMoose - easy subclassing of non-Moose classes
+# ABSTRACT: easy subclassing of non-Moose classes
 
 =head1 SYNOPSIS
 
@@ -89,7 +86,7 @@ sub init_meta {
 
 =back
 
-=head1 BUGS/CAVEATS
+=head1 CAVEATS
 
 =over 4
 
@@ -112,55 +109,18 @@ in the future.
 
 =back
 
-Please report any bugs through RT: email
-C<bug-moosex-nonmoose at rt.cpan.org>, or browse to
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=MooseX-NonMoose>.
-
 =head1 SEE ALSO
-
-L<Moose::Cookbook::FAQ/How do I make non-Moose constructors work with Moose?>
-
-L<MooseX::Alien> - serves the same purpose, but with a radically different (and
-far more hackish) implementation.
-
-=head1 SUPPORT
-
-You can find this documentation for this module with the perldoc command.
-
-    perldoc MooseX::NonMoose
-
-You can also look for information at:
 
 =over 4
 
-=item * AnnoCPAN: Annotated CPAN documentation
+=item * L<Moose::Cookbook::FAQ/How do I make non-Moose constructors work with Moose?>
 
-L<http://annocpan.org/dist/MooseX-NonMoose>
+=item * L<MooseX::Alien>
 
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/MooseX-NonMoose>
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=MooseX-NonMoose>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/MooseX-NonMoose>
+serves the same purpose, but with a radically different (and far more hackish)
+implementation.
 
 =back
-
-=head1 AUTHOR
-
-  Jesse Luehrs <doy at tozt dot net>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2009 by Jesse Luehrs.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as perl itself.
 
 =cut
 

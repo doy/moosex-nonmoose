@@ -1,9 +1,6 @@
 package MooseX::NonMoose::InsideOut;
 use Moose::Exporter;
-
-=head1 NAME
-
-MooseX::NonMoose::InsideOut - easy subclassing of non-Moose non-hashref classes
+# ABSTRACT: easy subclassing of non-Moose non-hashref classes
 
 =head1 SYNOPSIS
 
@@ -50,18 +47,5 @@ sub init_meta {
         if Class::MOP::class_of($options{for_class})->isa('Moose::Meta::Role');
     $package->$init_meta(@_);
 }
-
-=head1 AUTHOR
-
-  Jesse Luehrs <doy at tozt dot net>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2009 by Jesse Luehrs.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as perl itself.
-
-=cut
 
 1;

@@ -1,44 +1,46 @@
-Revision history for MooseX::NonMoose
+Revision history for MooseX-NonMoose
 
-0.08    05/20/2010
-    Fix inheriting from classes which don't bless their instances into the
-    correct class when subclassing (jhallock).
+{{$NEXT}}
 
-    Update for things fixed in latest Moose.
+0.08  2010-05-20
+      - Fix inheriting from classes which don't bless their instances into the
+        correct class when subclassing (jhallock).
 
-0.07    09/27/2009
-    Start adding support for non-Moose destructors. Destructor inlining isn't
-    supported yet, since Moose isn't quite flexible enough there for it to be
-    more than an annoying hack, but this should still work with immutable
-    classes anyway.
+      - Update for things fixed in latest Moose.
 
-0.06    09/27/2009
-    defining a custom constructor in a class using mx-nonmoose now works
+0.07  2009-09-27
+      - Start adding support for non-Moose destructors. Destructor inlining
+        isn't supported yet, since Moose isn't quite flexible enough there for
+        it to be more than an annoying hack, but this should still work with
+        immutable classes anyway.
 
-    use a less broken test for whether or not a superclass has an inlined
-    constructor (fixes issue uncovered by fixes to Moose's metaclass
-    compatibility fixing)
+0.06  2009-09-27
+      - defining a custom constructor in a class using mx-nonmoose now works
 
-0.05    06/24/2009
-    gaaaaah, packaging is so stupid (remove stray test.pl file)
+      - use a less broken test for whether or not a superclass has an inlined
+        constructor (fixes issue uncovered by fixes to Moose's metaclass
+        compatibility fixing)
 
-0.04    06/23/2009
-    Add tests and official support for alternate instance metaclasses, such as
-    MooseX::GlobRef and MooseX::InsideOut - including supplying a custom
-    exporter MooseX::NonMoose::InsideOut which should work in all possible
-    cases, when just using the same hash that the nonmoose class is using would
-    break
+0.05  2009-06-24
+      - gaaaaah, packaging is so stupid (remove stray test.pl file)
 
-    Fix a couple issues with inheriting from MooseX::NonMoose classes - make
-    sure FOREIGNBUILDARGS is only called once, and fix some issues with
-    immutability
+0.04  2009-06-23
+      - Add tests and official support for alternate instance metaclasses, such
+        as MooseX::GlobRef and MooseX::InsideOut - including supplying a custom
+        exporter MooseX::NonMoose::InsideOut which should work in all possible
+        cases, when just using the same hash that the nonmoose class is using
+        would break
 
-0.03    05/06/2009
-    Add a FOREIGNBUILDARGS method to support modifying the argument list passed
-    to the non-Moose constructor
+      - Fix a couple issues with inheriting from MooseX::NonMoose classes -
+        make sure FOREIGNBUILDARGS is only called once, and fix some issues
+        with immutability
 
-0.02    04/29/2009
-    A few minor doc fixes
+0.03  2009-05-06
+      - Add a FOREIGNBUILDARGS method to support modifying the argument list
+        passed to the non-Moose constructor
 
-0.01    04/20/2009
-    Initial release
+0.02  2009-04-29
+      - A few minor doc fixes
+
+0.01  2009-04-20
+      - Initial release

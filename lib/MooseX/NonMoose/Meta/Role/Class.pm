@@ -1,10 +1,7 @@
 package MooseX::NonMoose::Meta::Role::Class;
 use Moose::Role;
 use List::MoreUtils qw(any);
-
-=head1 NAME
-
-MooseX::NonMoose::Meta::Role::Class - metaclass trait for L<MooseX::NonMoose>
+# ABSTRACT: metaclass trait for L<MooseX::NonMoose>
 
 =head1 SYNOPSIS
 
@@ -233,18 +230,5 @@ around superclasses => sub {
 };
 
 no Moose::Role;
-
-=head1 AUTHOR
-
-  Jesse Luehrs <doy at tozt dot net>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2009 by Jesse Luehrs.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as perl itself.
-
-=cut
 
 1;
