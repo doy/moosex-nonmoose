@@ -6,7 +6,6 @@ use Test::Moose;
 BEGIN {
     eval "use MooseX::InsideOut 0.100 ()";
     plan skip_all => "MooseX::InsideOut is required for this test" if $@;
-    plan tests => 10;
 }
 
 BEGIN {
@@ -76,3 +75,5 @@ with_immutable {
     my $sub_foo = eval { Foo::Moose::Sub->new(FOO => bar => 'AHOY') };
     is(eval { $sub_foo->bar }, 'AHOY', 'subclass constructor works');
 } 'Foo::Moose';
+
+done_testing;

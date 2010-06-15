@@ -6,7 +6,6 @@ use Test::Moose;
 BEGIN {
     eval "use MooseX::GlobRef ()";
     plan skip_all => "MooseX::GlobRef is required for this test" if $@;
-    plan tests => 10;
 }
 # XXX: the way the IO modules are loaded means we can't just rely on cmop to
 # load these properly/:
@@ -83,3 +82,5 @@ with_immutable {
         is($buf, "foo\nbar\n", "filehandle still works as normal");
     }
 } 'IO::File::Moose';
+
+done_testing;

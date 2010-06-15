@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 6;
+use Test::More;
 use Test::Moose;
 
 my ($Foo, $Bar, $Baz);
@@ -33,3 +33,5 @@ with_immutable {
     is($Bar, 1, "Bar->BUILD is called once");
     is($Baz, 1, "Baz->BUILD is called once");
 } 'Baz';
+
+done_testing;

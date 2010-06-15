@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More;
 use Test::Moose;
 
 my ($destroyed, $demolished);
@@ -26,3 +26,5 @@ with_immutable {
     is($destroyed, 1, "non-Moose destructor called");
     is($demolished, 1, "Moose destructor called");
 } 'Foo::Sub';
+
+done_testing;

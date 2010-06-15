@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 8;
+use Test::More;
 
 BEGIN {
     require Moose;
@@ -69,3 +69,5 @@ my $method2 = Foo::Moose2->meta->get_method('new');
 Foo::Moose2->meta->make_immutable;
 isnt(Foo::Moose2->meta->get_method('new'), $method2,
    'inlining does happen when the constructor trait is used');
+
+done_testing;

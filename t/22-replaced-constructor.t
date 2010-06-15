@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 7;
+use Test::More;
 
 our $foo_constructed = 0;
 
@@ -60,3 +60,5 @@ is($method, Foo::Moose2->meta->get_method('new'),
    'make_immutable doesn\'t overwrite custom constructor');
 $foo = Foo::Moose2->new;
 ok($foo_constructed, 'custom constructor called (immutable)');
+
+done_testing;

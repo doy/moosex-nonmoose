@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 12;
+use Test::More;
 use Test::Moose;
 
 package Foo;
@@ -68,3 +68,5 @@ with_immutable {
     is($baz->bar, 'bazbaz', 'extensions of extensions of the nonmoose class respect BUILDARGS');
     is($baz->foo_base, 'bazbaz_base', 'extensions of extensions of the nonmoose class respect FOREIGNBUILDARGS');
 } qw(Foo::Moose Bar::Moose Baz::Moose);
+
+done_testing;

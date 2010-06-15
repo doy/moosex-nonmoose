@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More;
 
 package Foo;
 
@@ -34,3 +34,5 @@ $foo_moose->foo('BAZ');
 $foo_moose->bar('QUUX');
 is($foo_moose->foo, 'BAZ', 'foo set by accessor');
 is($foo_moose->bar, 'QUUX', 'bar set by accessor');
+
+done_testing;

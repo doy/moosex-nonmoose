@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 32;
+use Test::More;
 use Test::Moose;
 
 package Foo;
@@ -81,3 +81,5 @@ with_immutable {
     is($bar->bar, 'barmoosesub', 'got name from nonmoose constructor');
     is($bar->bar2, 'BAR2', 'got attribute value from moose constructor');
 } 'Bar::Moose';
+
+done_testing;

@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 5;
+use Test::More;
 
 package Foo;
 
@@ -54,3 +54,5 @@ my $foo_moose_sub = Foo::Moose::Sub->new;
 is($foo_moose_sub->class, 'Foo::Moose::Sub', 'parent BUILD method called');
 is($foo_moose_sub->bar, 'BAR', 'child BUILD method called');
 is($foo_moose_sub->accum, 'ab', 'BUILD methods called in the correct order');
+
+done_testing;

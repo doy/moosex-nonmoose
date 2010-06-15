@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 9;
+use Test::More;
 
 package Foo;
 
@@ -30,3 +30,5 @@ my $cc_meta = $meta->constructor_class->meta;
 isa_ok($cc_meta, 'Moose::Meta::Class');
 ok($cc_meta->does_role('MooseX::NonMoose::Meta::Role::Constructor'),
    'Foo::Moose gets its constructor from MooseX::NonMoose');
+
+done_testing;

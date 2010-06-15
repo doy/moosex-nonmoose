@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 3;
+use Test::More;
 
 package Foo;
 
@@ -23,3 +23,5 @@ my $foo_moose = Foo::Moose->new;
 is($foo_moose->foo, 'Foo', 'Foo::Moose->foo');
 is($foo_moose->bar, 'Foo::Moose', 'Foo::Moose->bar');
 is($foo_moose->baz, 'Foo::Moose', 'Foo::Moose->baz');
+
+done_testing;

@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 12;
+use Test::More;
 
 package Foo;
 use Moose;
@@ -49,3 +49,5 @@ isa_ok($foo_othersub, 'Foo');
 is($foo_othersub->foo, 'FOO', 'inheritance works (all immutable)');
 ok(Foo::OtherSub->meta->has_method('new'),
    'Foo::OtherSub has its own new method (all immutable)');
+
+done_testing;

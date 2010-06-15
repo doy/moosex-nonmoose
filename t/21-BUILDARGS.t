@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More;
 use Test::Moose;
 
 package Foo;
@@ -36,3 +36,5 @@ with_immutable {
     is($foo->name, 'bar', 'superclass constructor gets the right args');
     is($foo->foo,  'baz', 'subclass constructor gets the right args');
 } 'Foo::Moose';
+
+done_testing;

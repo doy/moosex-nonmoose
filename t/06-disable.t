@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 3;
+use Test::More;
 
 package Foo;
 
@@ -31,3 +31,5 @@ my $method2 = Foo::Moose2->meta->get_method('new');
 Foo::Moose2->meta->make_immutable(inline_constructor => 0);
 is($method2, Foo::Moose2->meta->get_method('new'),
    'make_immutable doesn\'t replace the constructor if we ask it not to');
+
+done_testing;
