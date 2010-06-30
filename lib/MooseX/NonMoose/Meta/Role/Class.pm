@@ -219,7 +219,7 @@ around superclasses => sub {
 
     my @superclasses = @_;
     push @superclasses, 'Moose::Object'
-        unless grep { blessed($_) && $_->isa('Moose::Object') } @superclasses;
+        unless grep { !ref($_) && $_->isa('Moose::Object') } @superclasses;
 
     my @ret = $self->$orig(@superclasses);
 
