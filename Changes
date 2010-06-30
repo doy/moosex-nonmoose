@@ -1,6 +1,9 @@
 Revision history for MooseX-NonMoose
 
 {{$NEXT}}
+      - Don't break if someone specifies a version to extends.
+
+0.09  2010-06-15
       - Fix several issues relating to picking the correct constructor to call
         from the constructor that we build.
 
