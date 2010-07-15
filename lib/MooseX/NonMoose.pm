@@ -65,9 +65,11 @@ confused by the extra arguments that Moose requires (for attributes, etc.)
 =cut
 
 my ($import, $unimport, $init_meta) = Moose::Exporter->build_import_methods(
-    metaclass_roles         => ['MooseX::NonMoose::Meta::Role::Class'],
-    constructor_class_roles => ['MooseX::NonMoose::Meta::Role::Constructor'],
-    install                 => [qw(import unimport)],
+    class_metaroles => {
+        class       => ['MooseX::NonMoose::Meta::Role::Class'],
+        constructor => ['MooseX::NonMoose::Meta::Role::Constructor'],
+    },
+    install => [qw(import unimport)],
 );
 
 sub init_meta {

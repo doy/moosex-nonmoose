@@ -1,6 +1,7 @@
 Revision history for MooseX-NonMoose
 
 {{$NEXT}}
+      - Avoid warnings from Moose 1.09 (Dave Rolsky).
 
 0.11  2010-06-30
       - Actually use the right test.
