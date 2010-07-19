@@ -1,6 +1,8 @@
 Revision history for MooseX-NonMoose
 
 {{$NEXT}}
+
+0.13  2010-07-18
       - Also avoid warnings in MooseX::NonMoose::InsideOut.
 
 0.12  2010-07-18
