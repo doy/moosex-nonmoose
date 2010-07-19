@@ -34,10 +34,12 @@ use Moose::Exporter;
 =cut
 
 my ($import, $unimport, $init_meta) = Moose::Exporter->build_import_methods(
-    metaclass_roles          => ['MooseX::NonMoose::Meta::Role::Class'],
-    constructor_class_roles  => ['MooseX::NonMoose::Meta::Role::Constructor'],
-    instance_metaclass_roles => ['MooseX::InsideOut::Role::Meta::Instance'],
-    install                  => [qw(import unimport)],
+    class_metaroles => {
+        class       => ['MooseX::NonMoose::Meta::Role::Class'],
+        constructor => ['MooseX::NonMoose::Meta::Role::Constructor'],
+        instance    => ['MooseX::InsideOut::Role::Meta::Instance'],
+    },
+    install => [qw(import unimport)],
 );
 
 sub init_meta {
