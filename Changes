@@ -1,6 +1,7 @@
 Revision history for MooseX-NonMoose
 
 {{$NEXT}}
+      - Avoid warnings from Moose 1.09, part 2 (Dave Rolsky).
 
 0.13  2010-07-18
       - Also avoid warnings in MooseX::NonMoose::InsideOut.

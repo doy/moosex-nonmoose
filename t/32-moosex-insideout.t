@@ -19,13 +19,15 @@ BEGIN {
         shift;
         my %options = @_;
         Moose->init_meta(%options);
-        Moose::Util::MetaRole::apply_metaclass_roles(
-            for_class               => $options{for_class},
-            metaclass_roles         => ['MooseX::NonMoose::Meta::Role::Class'],
-            constructor_class_roles =>
-                ['MooseX::NonMoose::Meta::Role::Constructor'],
-            instance_metaclass_roles =>
-                ['MooseX::InsideOut::Role::Meta::Instance'],
+        Moose::Util::MetaRole::apply_metaroles(
+            for             => $options{for_class},
+            class_metaroles => {
+                class => ['MooseX::NonMoose::Meta::Role::Class'],
+                constructor =>
+                    ['MooseX::NonMoose::Meta::Role::Constructor'],
+                instance =>
+                    ['MooseX::InsideOut::Role::Meta::Instance'],
+            },
         );
         return Class::MOP::class_of($options{for_class});
     }
