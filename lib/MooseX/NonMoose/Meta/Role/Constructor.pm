@@ -69,7 +69,18 @@ sub _generate_fallback_constructor {
                 ? "${class_var}->FOREIGNBUILDARGS(\@_)"
                 : '@_';
     my $instance = "${class_var}->${super_new_class}::$new($arglist)";
-    "${class_var}->Moose::Object::new(__INSTANCE__ => $instance, \@_)"
+    # XXX: the "my $__DUMMY = " part is because "return do" triggers a weird
+    # bug in pre-5.12 perls (it ends up returning undef)
+    "my \$__DUMMY = do {\n"
+  . "    if (ref(\$_[0]) eq 'HASH') {\n"
+  . "        \$_[0]->{__INSTANCE__} = $instance\n"
+  . "            unless exists \$_[0]->{__INSTANCE__};\n"
+  . "    }\n"
+  . "    else {\n"
+  . "        unshift \@_, __INSTANCE__ => $instance;\n"
+  . "    }\n"
+  . "    ${class_var}->Moose::Object::new(\@_);\n"
+  . "}";
 }
 
 sub _generate_instance {
