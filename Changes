@@ -1,6 +1,7 @@
 Revision history for MooseX-NonMoose
 
 {{$NEXT}}
+      - Make it work with Moose 1.15 (Dave Rolsky).
 
 0.15  2010-08-20
       - Fix the fallback constructor call for hashref parameters (ribasushi,
