@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 use Test::More;
-use Test::Exception;
+use Test::Fatal;
 
 {
     package Foo;
@@ -47,8 +47,8 @@ use Test::Exception;
 
 {
     my $baz;
-    lives_ok { $baz = Baz->new( foo => 1, bar => 2, baz => 3 ) }
-             "constructor lives";
+    is(exception { $baz = Baz->new( foo => 1, bar => 2, baz => 3 ) }, undef,
+       "constructor lives");
     is($baz->foo, 1, "foo set");
     is($baz->bar, 2, "bar set");
     is($baz->baz, 3, "baz set");
@@ -57,8 +57,8 @@ use Test::Exception;
 
 {
     my $baz;
-    lives_ok { $baz = Baz->new({foo => 1, bar => 2, baz => 3}) }
-             "constructor lives (hashref)";
+    is(exception { $baz = Baz->new({foo => 1, bar => 2, baz => 3}) }, undef,
+       "constructor lives (hashref)");
     is($baz->foo, 1, "foo set (hashref)");
     is($baz->bar, 2, "bar set (hashref)");
     is($baz->baz, 3, "baz set (hashref)");

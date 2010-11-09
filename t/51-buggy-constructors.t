@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 use Test::More;
-use Test::Exception;
+use Test::Fatal;
 use Test::Moose;
 
 {
@@ -21,9 +21,8 @@ use Test::Moose;
 
 with_immutable {
     my $foo;
-    lives_ok {
-        $foo = Foo::Sub->new;
-    } "subclassing nonmoose classes with correct constructors works";
+    is(exception { $foo = Foo::Sub->new }, undef,
+       "subclassing nonmoose classes with correct constructors works");
     isa_ok($foo, 'Foo');
     isa_ok($foo, 'Foo::Sub');
 } 'Foo::Sub';
@@ -44,9 +43,8 @@ with_immutable {
 
 with_immutable {
     my $foo;
-    lives_ok {
-        $foo = BadFoo::Sub->new;
-    } "subclassing nonmoose classes with incorrect constructors works";
+    is(exception { $foo = BadFoo::Sub->new }, undef,
+       "subclassing nonmoose classes with incorrect constructors works");
     isa_ok($foo, 'BadFoo');
     isa_ok($foo, 'BadFoo::Sub');
 } 'BadFoo::Sub';
@@ -67,10 +65,9 @@ with_immutable {
 
 with_immutable {
     my $foo;
-    throws_ok {
-        $foo = BadFoo2::Sub->new;
-    } qr/\QThe constructor for BadFoo2 did not return a blessed instance/,
-      "subclassing nonmoose classes with incorrect constructors dies properly";
+    like(exception { $foo = BadFoo2::Sub->new; },
+         qr/\QThe constructor for BadFoo2 did not return a blessed instance/,
+         "subclassing nonmoose classes with incorrect constructors dies properly");
 } 'BadFoo2::Sub';
 
 {
@@ -89,10 +86,9 @@ with_immutable {
 
 with_immutable {
     my $foo;
-    throws_ok {
-        $foo = BadFoo3::Sub->new;
-    } qr/\QThe constructor for BadFoo3 returned an object whose class is not a parent of BadFoo3::Sub/,
-      "subclassing nonmoose classes with incorrect constructors dies properly";
+    like(exception { $foo = BadFoo3::Sub->new },
+         qr/\QThe constructor for BadFoo3 returned an object whose class is not a parent of BadFoo3::Sub/,
+         "subclassing nonmoose classes with incorrect constructors dies properly");
 } 'BadFoo3::Sub';
 
 done_testing;

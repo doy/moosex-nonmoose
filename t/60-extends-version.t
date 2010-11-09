@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 use Test::More;
-use Test::Exception;
+use Test::Fatal;
 
 {
     package Foo;
@@ -14,8 +14,8 @@ use Test::Exception;
     package Bar;
     use Moose;
     use MooseX::NonMoose;
-    ::lives_ok { extends 'Foo' => { -version => '0.02' } }
-               "specifying arguments to superclasses doesn't break";
+    ::is(::exception { extends 'Foo' => { -version => '0.02' } }, undef,
+         "specifying arguments to superclasses doesn't break");
 }
 
 done_testing;
