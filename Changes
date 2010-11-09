@@ -1,6 +1,7 @@
 Revision history for MooseX-NonMoose
 
 {{$NEXT}}
+      - convert to Test::Fatal, and dep on it
 
 0.16  2010-10-05
       - Make it work with Moose 1.15 (Dave Rolsky).
