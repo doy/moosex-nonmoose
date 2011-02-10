@@ -1,6 +1,7 @@
 Revision history for MooseX-NonMoose
 
 {{$NEXT}}
+      - forward compat for Moose 2.0
 
 0.17  2010-11-08
       - convert to Test::Fatal, and dep on it
