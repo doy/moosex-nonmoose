@@ -89,7 +89,7 @@ sub init_meta {
 
 =back
 
-=head1 CAVEATS
+=head1 BUGS/CAVEATS
 
 =over 4
 
@@ -112,6 +112,10 @@ in the future.
 
 =back
 
+Please report any bugs through RT: email
+C<bug-moosex-nonmoose at rt.cpan.org>, or browse to
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=MooseX-NonMoose>.
+
 =head1 SEE ALSO
 
 =over 4
@@ -122,6 +126,34 @@ in the future.
 
 serves the same purpose, but with a radically different (and far more hackish)
 implementation.
+
+=back
+
+=head1 SUPPORT
+
+You can find this documentation for this module with the perldoc command.
+
+    perldoc MooseX::NonMoose
+
+You can also look for information at:
+
+=over 4
+
+=item * AnnoCPAN: Annotated CPAN documentation
+
+L<http://annocpan.org/dist/MooseX-NonMoose>
+
+=item * CPAN Ratings
+
+L<http://cpanratings.perl.org/d/MooseX-NonMoose>
+
+=item * RT: CPAN's request tracker
+
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=MooseX-NonMoose>
+
+=item * Search CPAN
+
+L<http://search.cpan.org/dist/MooseX-NonMoose>
 
 =back
 
