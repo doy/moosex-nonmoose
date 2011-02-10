@@ -229,6 +229,72 @@ around superclasses => sub {
     return @ret;
 };
 
+sub _generate_fallback_constructor {
+    my $self = shift;
+    my ($class_var) = @_;
+
+    my $new = $self->constructor_name;
+    my $super_new_class = $self->_find_next_nonmoose_constructor_package;
+    my $arglist = $self->find_method_by_name('FOREIGNBUILDARGS')
+                ? "${class_var}->FOREIGNBUILDARGS(\@_)"
+                : '@_';
+    my $instance = "${class_var}->${super_new_class}::$new($arglist)";
+    # XXX: the "my $__DUMMY = " part is because "return do" triggers a weird
+    # bug in pre-5.12 perls (it ends up returning undef)
+    return '(my $__DUMMY = do { '
+             . 'if (ref($_[0]) eq \'HASH\') { '
+                 . '$_[0]->{__INSTANCE__} = ' . $instance . ' '
+                     . 'unless exists $_[0]->{__INSTANCE__}; '
+             . '} '
+             . 'else { '
+                 . 'unshift @_, __INSTANCE__ => ' . $instance . '; '
+             . '} '
+             . $class_var . '->Moose::Object::new(@_); '
+         . '})';
+}
+
+sub _inline_generate_instance {
+    my $self = shift;
+    my ($var, $class_var) = @_;
+
+    my $new = $self->constructor_name;
+    my $super_new_class = $self->_find_next_nonmoose_constructor_package;
+    my $arglist = $self->find_method_by_name('FOREIGNBUILDARGS')
+                ? "${class_var}->FOREIGNBUILDARGS(\@_)"
+                : '@_';
+    my $instance = "${class_var}->${super_new_class}::$new($arglist)";
+    return (
+        'my ' . $var . ' = ' . $instance . ';',
+        'if (!Scalar::Util::blessed(' . $var . ')) {',
+            $self->_inline_throw_error(
+                '"The constructor for ' . $super_new_class . ' did not return a blessed instance"',
+            ) . ';',
+        '}',
+        'elsif (!' . $var . '->isa(' . $class_var . ')) {',
+            'if (!' . $class_var . '->isa(Scalar::Util::blessed(' . $var . '))) {',
+                $self->_inline_throw_error(
+                    '"The constructor for ' . $super_new_class . ' returned an object whose class is not a parent of ' . $class_var . '"',
+                ) . ';',
+            '}',
+            'else {',
+                $self->_inline_rebless_instance($var, $class_var) . ';',
+            '}',
+        '}',
+    );
+}
+
+sub _find_next_nonmoose_constructor_package {
+    my $self = shift;
+    my $new = $self->constructor_name;
+    for my $method (map { $_->{code} } $self->find_all_methods_by_name($new)) {
+        next if $method->associated_metaclass->meta->can('does_role')
+             && $method->associated_metaclass->meta->does_role('MooseX::NonMoose::Meta::Role::Class');
+        return $method->package_name;
+    }
+    # this should never happen (it should find Moose::Object at least)
+    $self->throw_error("Couldn't find a non-Moose constructor for " . $self->name);
+}
+
 no Moose::Role;
 
 1;
