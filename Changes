@@ -1,6 +1,7 @@
 Revision history for MooseX-NonMoose
 
 {{$NEXT}}
+      - don't die if superclass doesn't have a 'new' method
 
 0.18  2011-02-09
       - forward compat for Moose 2.0
