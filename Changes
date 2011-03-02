@@ -1,6 +1,8 @@
 Revision history for MooseX-NonMoose
 
 {{$NEXT}}
+
+0.19  2011-03-02
       - don't die if superclass doesn't have a 'new' method
 
 0.18  2011-02-09
