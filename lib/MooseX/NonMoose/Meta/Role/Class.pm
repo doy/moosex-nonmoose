@@ -57,6 +57,10 @@ sub _determine_constructor_options {
         unless $cc_meta->can('does_role')
             && $cc_meta->does_role('MooseX::NonMoose::Meta::Role::Constructor');
 
+    # do nothing if we explicitly ask for the constructor to not be inlined
+    my %options = @options;
+    return @options if !$options{inline_constructor};
+
     # XXX: get constructor name from the constructor metaclass?
     my $local_constructor = $self->get_method('new');
     if (!defined($local_constructor)) {
@@ -76,10 +80,6 @@ sub _determine_constructor_options {
     # though
     return @options
         if $local_constructor->isa('Class::MOP::Method::Wrapped');
-
-    # do nothing if we explicitly ask for the constructor to not be inlined
-    my %options = @options;
-    return @options if !$options{inline_constructor};
 
     # otherwise, explicitly ask for the constructor to be replaced (to suppress
     # the warning message), since this is the expected usage, and shouldn't
