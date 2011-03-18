@@ -23,4 +23,18 @@ use Test::More;
     }
 }
 
+{
+    package ChildTwo;
+    use Moose;
+    use MooseX::NonMoose;
+    extends 'NonMoose';
+    {
+        my $warning;
+        local $SIG{__WARN__} = sub { $warning = $_[0] };
+        __PACKAGE__->meta->make_immutable(inline_constructor => 0);
+        ::is($warning, undef,
+            "no warning when trying to make_immutable(inline_constructor => 0) without a superclass 'new'");
+    }
+}
+
 done_testing;
