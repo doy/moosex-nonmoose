@@ -120,7 +120,7 @@ L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=MooseX-NonMoose>.
 
 =over 4
 
-=item * L<Moose::Cookbook::FAQ/How do I make non-Moose constructors work with Moose?>
+=item * L<Moose::Manual::FAQ/How do I make non-Moose constructors work with Moose?>
 
 =item * L<MooseX::Alien>
 
