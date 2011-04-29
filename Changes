@@ -1,6 +1,14 @@
 Revision history for MooseX-NonMoose
 
 {{$NEXT}}
+      - Allow this module to work with constructors with names other than
+        'new'. If you're extending a class with a constructor named something
+        other than 'new', you should declare this when calling extends, as in:
+
+          extends 'Foo' => { -constructor_name => 'create' };
+
+        This will ensure that calling 'create' will also call Moose's
+        constructor.
 
 0.20  2011-03-22
       - fix warning when passing inline_constructor => 0 with no superclass new
