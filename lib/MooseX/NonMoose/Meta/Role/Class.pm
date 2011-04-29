@@ -46,6 +46,14 @@ has has_nonmoose_destructor => (
     default => 0,
 );
 
+# overrides the constructor_name attr that already exists
+has constructor_name => (
+    is      => 'rw',
+    isa     => 'Str',
+    lazy    => 1,
+    default => sub { shift->throw_error("No constructor name has been set") },
+);
+
 sub _determine_constructor_options {
     my $self = shift;
     my @options = @_;
@@ -61,12 +69,13 @@ sub _determine_constructor_options {
     my %options = @options;
     return @options if !$options{inline_constructor};
 
-    # XXX: get constructor name from the constructor metaclass?
-    my $local_constructor = $self->get_method('new');
+    my $constructor_name = $self->constructor_name;
+
+    my $local_constructor = $self->get_method($constructor_name);
     if (!defined($local_constructor)) {
         warn "Not inlining a constructor for " . $self->name . " since "
            . "its parent " . ($self->superclasses)[0] . " doesn't contain a "
-           . "'new' method. "
+           . "constructor named '$constructor_name'. "
            . "If you are certain you don't need to inline your"
            . " constructor, specify inline_constructor => 0 in your"
            . " call to " . $self->name . "->meta->make_immutable\n";
@@ -115,13 +124,12 @@ sub _check_superclass_constructor {
 
     # if the current class defined a custom new method (since subs happen at
     # BEGIN time), don't try to override it
-    return if $self->has_method('new');
+    return if $self->has_method($self->constructor_name);
 
     # we need to get the non-moose constructor from the superclass
     # of the class where this method actually exists, regardless of what class
     # we're calling it on
-    # XXX: get constructor name from the constructor metaclass?
-    my $super_new = $self->find_next_method_by_name('new');
+    my $super_new = $self->find_next_method_by_name($self->constructor_name);
 
     # if we're trying to extend a (non-immutable) moose class, just do nothing
     return if $super_new->package_name eq 'Moose::Object';
@@ -142,7 +150,7 @@ sub _check_superclass_constructor {
                       $super_new->associated_metaclass->_inlined_methods;
     }
 
-    $self->add_method(new => sub {
+    $self->add_method($self->constructor_name => sub {
         my $class = shift;
 
         my $params = $class->BUILDARGS(@_);
@@ -227,6 +235,46 @@ around superclasses => sub {
     my $self = shift;
 
     return $self->$orig unless @_;
+
+    # XXX lots of duplication between here and MMC::superclasses
+    my ($constructor_name, $constructor_class);
+    for my $super (@{ Data::OptList::mkopt(\@_) }) {
+        my ($name, $opts) = @{ $super };
+
+        my $cur_constructor_name = delete $opts->{'-constructor_name'};
+
+        if (defined($constructor_name) && defined($cur_constructor_name)) {
+            $self->throw_error(
+                "You have already specified "
+              . "${constructor_class}::${constructor_name} as the parent "
+              . "constructor; ${name}::${cur_constructor_name} cannot also be "
+              . "the constructor"
+            );
+        }
+
+        Class::MOP::load_class($name, $opts);
+
+        if (defined($cur_constructor_name)) {
+            my $meta = Class::MOP::class_of($name);
+            $self->throw_error(
+                "You specified '$cur_constructor_name' as the constructor for "
+              . "$name, but $name has no method by that name"
+            ) unless $meta
+                  ? $meta->find_method_by_name($cur_constructor_name)
+                  : $name->can($cur_constructor_name);
+        }
+
+        if (!defined($constructor_name)) {
+            $constructor_name  = $cur_constructor_name;
+            $constructor_class = $name;
+        }
+
+        delete $opts->{'-constructor_name'};
+    }
+
+    $self->constructor_name(
+        defined($constructor_name) ? $constructor_name : 'new'
+    );
 
     my @superclasses = @_;
     push @superclasses, 'Moose::Object'

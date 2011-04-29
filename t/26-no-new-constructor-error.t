@@ -18,8 +18,11 @@ use Test::More;
         my $warning;
         local $SIG{__WARN__} = sub { $warning = $_[0] };
         __PACKAGE__->meta->make_immutable;
-        ::like($warning, qr/Not inlining.*doesn't contain a 'new' method/,
-            "warning when trying to make_immutable without a superclass 'new'");
+        ::like(
+            $warning,
+            qr/Not inlining.*doesn't contain a constructor named 'new'/,
+            "warning when trying to make_immutable without a superclass 'new'"
+        );
     }
 }
 

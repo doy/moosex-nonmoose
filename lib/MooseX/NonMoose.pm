@@ -81,14 +81,6 @@ sub init_meta {
     $package->$init_meta(@_);
 }
 
-=head1 TODO
-
-=over 4
-
-=item * Allow for constructors with names other than C<new>.
-
-=back
-
 =head1 BUGS/CAVEATS
 
 =over 4
@@ -105,10 +97,6 @@ and C<033-moosex-globref> tests bundled with this dist.
 C<MooseX::NonMoose> (i.e. using C<sub new { ... }>) currently doesn't work,
 although using method modifiers on the constructor should work identically to
 normal Moose classes.
-
-=item * C<MooseX::NonMoose> currently assumes in several places that the
-superclass constructor will be called C<new>. This may be made configurable
-in the future.
 
 =back
 
