@@ -1,6 +1,8 @@
 Revision history for MooseX-NonMoose
 
 {{$NEXT}}
+
+0.21  2011-04-29
       - Allow this module to work with constructors with names other than
         'new'. If you're extending a class with a constructor named something
         other than 'new', you should declare this when calling extends, as in:
