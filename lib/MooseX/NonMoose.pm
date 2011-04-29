@@ -62,6 +62,15 @@ return a list of arguments to pass to the superclass constructor. This allows
 C<MooseX::NonMoose> to support superclasses whose constructors would get
 confused by the extra arguments that Moose requires (for attributes, etc.)
 
+Not all non-Moose classes use C<new> as the name of their constructor. This
+module allows you to extend these classes by explicitly stating which method is
+the constructor, during the call to C<extends>. The syntax looks like this:
+
+  extends 'Foo' => { -constructor_name => 'create' };
+
+similar to how you can already pass C<-version> in the C<extends> call in a
+similar way.
+
 =cut
 
 my ($import, $unimport, $init_meta) = Moose::Exporter->build_import_methods(
