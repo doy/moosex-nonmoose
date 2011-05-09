@@ -1,6 +1,8 @@
 Revision history for MooseX-NonMoose
 
 {{$NEXT}}
+
+0.22  2011-05-09
       - Fix issues where the metaclass gets reinitialized after the call to
         'extends' but before 'make_immutable'. This could happen if a role
         used an extension which provided an application_to_class metarole,
