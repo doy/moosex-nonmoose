@@ -1,6 +1,12 @@
 Revision history for MooseX-NonMoose
 
 {{$NEXT}}
+      - Fix issues where the metaclass gets reinitialized after the call to
+        'extends' but before 'make_immutable'. This could happen if a role
+        used an extension which provided an application_to_class metarole,
+        since the role application would then apply a metarole to the class,
+        and metarole application currently causes metaclass reinitialization
+        in Moose. (ugh.)
 
 0.21  2011-04-29
       - Allow this module to work with constructors with names other than
