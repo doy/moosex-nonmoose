@@ -54,6 +54,25 @@ has constructor_name => (
     default => sub { shift->throw_error("No constructor name has been set") },
 );
 
+# XXX ugh, really need to fix this in moose
+around reinitialize => sub {
+    my $orig = shift;
+    my $class = shift;
+    my ($pkg) = @_;
+
+    my $meta = blessed($pkg) ? $pkg : Class::MOP::class_of($pkg);
+
+    $class->$orig(
+        @_,
+        (map { $_->init_arg => $_->get_value($meta) }
+             grep { $_->has_value($meta) }
+                  map { $meta->meta->find_attribute_by_name($_) }
+                      qw(has_nonmoose_constructor
+                         has_nonmoose_destructor
+                         constructor_name)),
+    );
+};
+
 sub _determine_constructor_options {
     my $self = shift;
     my @options = @_;
