@@ -1,5 +1,5 @@
 package MooseX::NonMoose::Meta::Role::Constructor;
-use Moose::Role 1.15;
+use Moose::Role 2.0000;
 # ABSTRACT: constructor method trait for L<MooseX::NonMoose>
 
 =head1 SYNOPSIS
@@ -45,60 +45,6 @@ around can_be_inlined => sub {
 
     return $self->$orig(@_);
 };
-
-# for Moose 1.21 compatibility
-sub _generate_fallback_constructor {
-    my $self = shift;
-    my ($class_var) = @_;
-    my $new = $self->name;
-    my $meta = $self->associated_metaclass;
-    my $super_new_class = $meta->_find_next_nonmoose_constructor_package;
-    my $arglist = $meta->find_method_by_name('FOREIGNBUILDARGS')
-                ? "${class_var}->FOREIGNBUILDARGS(\@_)"
-                : '@_';
-    my $instance = "${class_var}->${super_new_class}::$new($arglist)";
-    # XXX: the "my $__DUMMY = " part is because "return do" triggers a weird
-    # bug in pre-5.12 perls (it ends up returning undef)
-    "my \$__DUMMY = do {\n"
-  . "    if (ref(\$_[0]) eq 'HASH') {\n"
-  . "        \$_[0]->{__INSTANCE__} = $instance\n"
-  . "            unless exists \$_[0]->{__INSTANCE__};\n"
-  . "    }\n"
-  . "    else {\n"
-  . "        unshift \@_, __INSTANCE__ => $instance;\n"
-  . "    }\n"
-  . "    ${class_var}->Moose::Object::new(\@_);\n"
-  . "}";
-}
-
-# for Moose 1.21 compatibility
-sub _generate_instance {
-    my $self = shift;
-    my ($var, $class_var) = @_;
-    my $new = $self->name;
-    my $meta = $self->associated_metaclass;
-    my $super_new_class = $meta->_find_next_nonmoose_constructor_package;
-    my $arglist = $meta->find_method_by_name('FOREIGNBUILDARGS')
-                ? "${class_var}->FOREIGNBUILDARGS(\@_)"
-                : '@_';
-    my $instance = "${class_var}->${super_new_class}::$new($arglist)";
-    return "my $var = $instance;\n"
-         . "if (!Scalar::Util::blessed($var)) {\n"
-         . "    " . $self->_inline_throw_error(
-               "'The constructor for $super_new_class did not return a blessed instance'"
-           ) . ";\n"
-         . "}\n"
-         . "elsif (!$var->isa($class_var)) {\n"
-         . "    if (!$class_var->isa(Scalar::Util::blessed($var))) {\n"
-         . "        " . $self->_inline_throw_error(
-               "\"The constructor for $super_new_class returned an object whose class is not a parent of $class_var\""
-           ) . ";\n"
-         . "    }\n"
-         . "    else {\n"
-         . "        " . $self->associated_metaclass->inline_rebless_instance($var, $class_var) . ";\n"
-         . "    }\n"
-         . "}\n";
-}
 
 no Moose::Role;
 
