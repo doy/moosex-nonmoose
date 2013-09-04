@@ -114,9 +114,8 @@ normal Moose classes.
 
 =back
 
-Please report any bugs through RT: email
-C<bug-moosex-nonmoose at rt.cpan.org>, or browse to
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=MooseX-NonMoose>.
+Please report any bugs to GitHub Issues at
+L<https://github.com/doy/moosex-nonmoose/issues>.
 
 =head1 SEE ALSO
 
@@ -141,21 +140,21 @@ You can also look for information at:
 
 =over 4
 
-=item * AnnoCPAN: Annotated CPAN documentation
+=item * MetaCPAN
 
-L<http://annocpan.org/dist/MooseX-NonMoose>
+L<https://metacpan.org/release/MooseX-NonMoose>
 
-=item * CPAN Ratings
+=item * Github
 
-L<http://cpanratings.perl.org/d/MooseX-NonMoose>
+L<https://github.com/doy/moosex-nonmoose>
 
 =item * RT: CPAN's request tracker
 
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=MooseX-NonMoose>
 
-=item * Search CPAN
+=item * CPAN Ratings
 
-L<http://search.cpan.org/dist/MooseX-NonMoose>
+L<http://cpanratings.perl.org/d/MooseX-NonMoose>
 
 =back
 

@@ -1,5 +1,5 @@
 package MooseX::NonMoose::Meta::Role::Constructor;
-use Moose::Role;
+use Moose::Role 1.15;
 # ABSTRACT: constructor method trait for L<MooseX::NonMoose>
 
 =head1 SYNOPSIS
