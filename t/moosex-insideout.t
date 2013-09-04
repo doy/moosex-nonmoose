@@ -29,7 +29,7 @@ BEGIN {
                     ['MooseX::InsideOut::Role::Meta::Instance'],
             },
         );
-        return Class::MOP::class_of($options{for_class});
+        return Moose::Util::find_meta($options{for_class});
     }
 }
 

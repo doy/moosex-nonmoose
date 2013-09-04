@@ -84,7 +84,7 @@ my ($import, $unimport, $init_meta) = Moose::Exporter->build_import_methods(
 sub init_meta {
     my $package = shift;
     my %options = @_;
-    my $meta = Class::MOP::class_of($options{for_class});
+    my $meta = Moose::Util::find_meta($options{for_class});
     Carp::cluck('Roles have no use for MooseX::NonMoose')
         if $meta && $meta->isa('Moose::Meta::Role');
     $package->$init_meta(@_);

@@ -19,7 +19,7 @@ use Moose::Role 2.0000;
           constructor_class_roles =>
               ['MooseX::NonMoose::Meta::Role::Constructor'],
       );
-      return Class::MOP::class_of($options{for_class});
+      return Moose::Util::find_meta($options{for_class});
   }
 
 =head1 DESCRIPTION
@@ -38,8 +38,8 @@ around can_be_inlined => sub {
     my $meta = $self->associated_metaclass;
     my $super_new = $meta->find_method_by_name($self->name);
     my $super_meta = $super_new->associated_metaclass;
-    if (Class::MOP::class_of($super_meta)->can('does_role')
-     && Class::MOP::class_of($super_meta)->does_role('MooseX::NonMoose::Meta::Role::Class')) {
+    if (Moose::Util::find_meta($super_meta)->can('does_role')
+     && Moose::Util::find_meta($super_meta)->does_role('MooseX::NonMoose::Meta::Role::Class')) {
         return 1;
     }
 

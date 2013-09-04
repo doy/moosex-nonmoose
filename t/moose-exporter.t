@@ -20,7 +20,7 @@ BEGIN {
                 class => ['MooseX::NonMoose::Meta::Role::Class'],
             },
         );
-        return Class::MOP::class_of($options{for_class});
+        return Moose::Util::find_meta($options{for_class});
     }
 
     package Foo::Exporter::ClassAndConstructor;
@@ -39,7 +39,7 @@ BEGIN {
                     ['MooseX::NonMoose::Meta::Role::Constructor'],
             },
         );
-        return Class::MOP::class_of($options{for_class});
+        return Moose::Util::find_meta($options{for_class});
     }
 
 }

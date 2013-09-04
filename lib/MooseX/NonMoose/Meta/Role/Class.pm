@@ -1,7 +1,9 @@
 package MooseX::NonMoose::Meta::Role::Class;
 use Moose::Role;
-use List::MoreUtils qw(any);
 # ABSTRACT: metaclass trait for L<MooseX::NonMoose>
+
+use List::MoreUtils qw(any);
+use Module::Runtime qw(use_package_optimistically);
 
 =head1 SYNOPSIS
 
@@ -23,7 +25,7 @@ use List::MoreUtils qw(any);
           for_class       => $options{for_class},
           metaclass_roles => ['MooseX::NonMoose::Meta::Role::Class'],
       );
-      return Class::MOP::class_of($options{for_class});
+      return Moose::Util::find_meta($options{for_class});
   }
 
 =head1 DESCRIPTION
@@ -60,7 +62,7 @@ around reinitialize => sub {
     my $class = shift;
     my ($pkg) = @_;
 
-    my $meta = blessed($pkg) ? $pkg : Class::MOP::class_of($pkg);
+    my $meta = blessed($pkg) ? $pkg : Moose::Util::find_meta($pkg);
 
     $class->$orig(
         @_,
@@ -79,7 +81,7 @@ sub _determine_constructor_options {
 
     # if we're using just the metaclass trait, but not the constructor trait,
     # then suppress the warning about not inlining a constructor
-    my $cc_meta = Class::MOP::class_of($self->constructor_class);
+    my $cc_meta = Moose::Util::find_meta($self->constructor_class);
     return (@options, inline_constructor => 0)
         unless $cc_meta->can('does_role')
             && $cc_meta->does_role('MooseX::NonMoose::Meta::Role::Constructor');
@@ -271,10 +273,10 @@ around superclasses => sub {
             );
         }
 
-        Class::MOP::load_class($name, $opts);
+        use_package_optimistically($name, $opts ? $opts->{-version} : ());
 
         if (defined($cur_constructor_name)) {
-            my $meta = Class::MOP::class_of($name);
+            my $meta = Moose::Util::find_meta($name);
             $self->throw_error(
                 "You specified '$cur_constructor_name' as the constructor for "
               . "$name, but $name has no method by that name"
