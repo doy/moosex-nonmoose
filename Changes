@@ -1,6 +1,8 @@
 Revision history for MooseX-NonMoose
 
 {{$NEXT}}
+      - stop using old and deprecated (or soon to be deprecated) functions from
+        Class::MOP
 
 0.22  2011-05-09
       - Fix issues where the metaclass gets reinitialized after the call to
