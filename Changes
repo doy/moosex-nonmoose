@@ -1,6 +1,7 @@
 Revision history for MooseX-NonMoose
 
 {{$NEXT}}
+      - added missing lib include (Karen Etheridge)
 
 0.23  2013-09-04
       - stop using old and deprecated (or soon to be deprecated) functions from
