@@ -103,7 +103,7 @@ any class. For globref-based classes in particular, L<MooseX::GlobRef> will
 also allow Moose to work. For more information, see the C<032-moosex-insideout>
 and C<033-moosex-globref> tests bundled with this dist.
 
-=item * Modifying your class' C<@ISA> after an intial C<extends> call will potentially
+=item * Modifying your class' C<@ISA> after an initial C<extends> call will potentially
 cause problems if any of those new entries in the C<@ISA> override the constructor.
 C<MooseX::NonMoose> wraps the nearest C<new()> method at the time C<extends>
 is called and will not see any other C<new()> methods in the @ISA hierarchy.
