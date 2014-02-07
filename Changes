@@ -1,6 +1,7 @@
 Revision history for MooseX-NonMoose
 
 {{$NEXT}}
+      - fix for Module::Runtime 0.014
 
 0.24  2013-09-07
       - added missing lib include (Karen Etheridge)
