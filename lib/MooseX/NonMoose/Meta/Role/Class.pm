@@ -273,7 +273,12 @@ around superclasses => sub {
             );
         }
 
-        use_package_optimistically($name, $opts ? $opts->{-version} : ());
+        if ($opts && exists($opts->{-version})) {
+            use_package_optimistically($name, $opts->{-version});
+        }
+        else {
+            use_package_optimistically($name);
+        }
 
         if (defined($cur_constructor_name)) {
             my $meta = Moose::Util::find_meta($name);
