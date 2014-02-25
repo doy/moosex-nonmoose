@@ -4,6 +4,7 @@ use Moose::Role;
 
 use List::MoreUtils qw(any);
 use Module::Runtime qw(use_package_optimistically);
+use Try::Tiny;
 
 =head1 SYNOPSIS
 
