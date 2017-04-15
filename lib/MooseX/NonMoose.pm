@@ -58,10 +58,11 @@ constructor when you immutabilize your class.
 
 C<MooseX::NonMoose> allows you to manipulate the argument list that gets passed
 to the superclass constructor by defining a C<FOREIGNBUILDARGS> method. This is
-called with the same argument list as the C<BUILDARGS> method, but should
-return a list of arguments to pass to the superclass constructor. This allows
-C<MooseX::NonMoose> to support superclasses whose constructors would get
-confused by the extra arguments that Moose requires (for attributes, etc.)
+called with first argument as class name and with other arguments I<as are> in
+constructor, but should return a list of arguments to pass to the superclass
+constructor. This allows C<MooseX::NonMoose> to support superclasses whose
+constructors would get confused by the extra arguments that Moose requires (for
+attributes, etc.)
 
 Not all non-Moose classes use C<new> as the name of their constructor. This
 module allows you to extend these classes by explicitly stating which method is
