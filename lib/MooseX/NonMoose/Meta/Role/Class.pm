@@ -5,6 +5,7 @@ use Moose::Role;
 use List::Util 1.33 qw(any);
 use Module::Runtime qw(use_package_optimistically);
 use Try::Tiny;
+use Scalar::Util 'blessed';
 
 =head1 SYNOPSIS
 
