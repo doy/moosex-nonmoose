@@ -237,7 +237,7 @@ sub _check_superclass_destructor {
         local $?;
 
         Try::Tiny::try {
-            $super_DESTROY->execute($self);
+            $super_DESTROY->execute($self) if defined $super_DESTROY;
             $self->DEMOLISHALL(Devel::GlobalDestruction::in_global_destruction);
         }
         Try::Tiny::catch {
